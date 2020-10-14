@@ -29,8 +29,10 @@ const UserService = {
   },
   serializeUser(user) {
     return {
-      id: user_id,
+      id: user.id,
       username: user.username
     }
   }
 }
+
+module.exports = UserService;
