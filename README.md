@@ -14,9 +14,29 @@ Endless Encounters is a text-based RPG ("Role Playing Game") developed by Emotio
 
 ## API Endpoints:  
 
-### '/auth'
 
 ### '/user'
+The '/user' endpoint is designed to create new user account and collect a Token for a registered user.  
+The POST command on '/user' accepts a  name, username, and password.  
+```json
+{
+    "name": "Jane Doe",
+    "username": "JaneD@example.com",
+    "password": "password123!"
+}
+```
+Successful POST's return a `200 OK` response and assign a user_id.  
+
+### '/auth'
+The '/auth' endpoint validates user login allows user access via an auth token.  
+The POST command on '/auth' accepts a username and password.  
+```json
+{
+    "username": "JaneD@example.com",
+    "password": "password123!"
+}
+```
+Successful POST's return a `200 OK` response and assign a jwt-token. 
 
 ### '/inventory'
 
