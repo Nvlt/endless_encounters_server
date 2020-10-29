@@ -1,6 +1,6 @@
  module.exports = class ability
 {
-    constructor(data = {}, logic = (StoryEvent)=>{return StoryEvent})
+    constructor(data = {}, logic = (StoryEvent, caster = null, target = null)=>{return StoryEvent})
     {
         if(data)
         {
@@ -9,12 +9,13 @@
         this.name = data.name || "";
         this.desc = data.desc || "";
         this.logic = logic;
+        
     }
-    do(event)
+    do(event = this.StoryEvent, caster = (event.turn == 'player')?event.player : event.entities[0], target = (event.turn == 'enemy')?event.player : event.entities[0], data = this)
     {
         if(event)
         {
-            const result = this.logic(event);
+            const result = this.logic( event, caster, target, data );
             if(result.dataType === 'StoryEvent')
             {
                 return result;

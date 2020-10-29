@@ -1,6 +1,6 @@
-const storyEvent = require('../storyEvent/storyEvent');
-const Job = require('../Job/job');
-const config = require('./entity.config');
+const {jobs} = require('../Content/jobs');
+const cAbilities = require('../Content/abilities');
+const { threadId } = require('worker_threads');
 module.exports = class entity
 {
     
@@ -9,7 +9,7 @@ module.exports = class entity
         
         if(data)
         {
-            let {name, desc, job, level, abilities, exp, max_exp, hp, max_hp, current_event, type, stats, gold, hostility} = data;
+            let {name, desc, job, speechType,statPoints, level, intro, abilities, exp, hp, max_hp,mp, current_event, type, stats, gold, hostility} = data;
             //inventory = [new item(),new item(),new item()];
             if(job)
             {
@@ -19,11 +19,21 @@ module.exports = class entity
             }
             else
             {
-                job = config.jobs.Warrior;
+                job = jobs.Warrior;
                 var {abilities:jobAbilities, base_stats} = job;
                 var {str,dex,int,stam,will,agi,cha} = base_stats;
               
 
+            }
+            if(stats)
+            {
+                str = stats.str || str;
+                dex = stats.dex || dex;
+                int = stats.int || int;
+                stam = stats.stam || stam;
+                will = stats.will || will;
+                agi = stats.agi || agi;
+                cha = stats.cha || cha;
             }
 
             this.name = name || "unknown being"
@@ -31,58 +41,48 @@ module.exports = class entity
             this.job = job 
             this.base_hp = 200;
             this.level = level || 0;
+            this.speechType = speechType || 'general'
+            this.pronoun = 'They';
+            this.upgradeAbilities = {
+                str:cAbilities.levelUpStr,
+                dex:cAbilities.levelUpDex,
+                int:cAbilities.levelUpInt,
+                stam:cAbilities.levelUpStam,
+                will:cAbilities.levelUpWill,
+                agi:cAbilities.levelUpAgi,
+                cha:cAbilities.levelUpCha
+            }
+            this.statPoints = statPoints || 0;
             // this.equipment = equipment || base_equipment || []; //Boots, leggings, torso, helm, gloves, main hand weapon, and offhand weapon.
             // jobAbilities vvvvv
-            this.abilities = abilities || jobAbilities || {
-                
-                doThing:(StoryEvent)=>
-                {
-                    if(StoryEvent)
-                    {
-                        StoryEvent.displayText = "We did a thing.";
-                        return StoryEvent;
-                    }
-                    else
-                    {
-                        throw new Error("Abilities must get the StoryEvent.")
-                    }
-                },
-                damageSelf:(StoryEvent)=>
-                {
-                    if(StoryEvent)
-                    {
-                        let {playerEntity} = StoryEvent;
-                        let damage = 50
-                        playerEntity.hp = playerEntity.hp - damage;
-                        if(playerEntity.hp <= 0)
-                        {
-                            StoryEvent.displayText = `You have died..`
-                        }
-                        else
-                        {
-                            StoryEvent.displayText = `You take ${damage} damage!\n Your hp is now ${playerEntity.hp}`
-                        }
-                        
-                        return StoryEvent;
-                    }
-                    else
-                    {
-                        throw new Error("Abilities must get the StoryEvent.")
-                    }
-                },
-            };
-            this.stats = stats || base_stats
+
+            this.abilities = abilities || jobAbilities || {};
+            this.stats = {str,dex,int,stam,will,agi,cha};
+            //this.modifiedStats=stats||stats+equipmentstats;
+            //this.equipmentstats={str,dex,int,stam,will,agi,cha}
             this.gold = gold || 0;
             this.exp = exp || 0;
-            this.max_exp = max_exp || 0;
-            this.max_hp = max_hp || this.base_hp + (stam * 10); 
-            this.hp = hp || this.max_hp;
+            this.max_exp = 100 + (100*this.level);
+            if(max_hp)
+            {
+                this.max_hp = max_hp;
+            }
+            else
+            {
+                console.log(this.stats);
+                this.max_hp = this.base_hp + (this.stats.stam * 10);
+            }
+            this.hp = (hp != undefined)? hp : this.max_hp;
+            this.max_mp = 100 + this.stats.will * 10;
+            this.mp = (mp != undefined)? mp : this.max_mp;
+
             //this.inventory = inventory || job.base_inventory || [];
-            
+            //this.gear=gear || { }
             this.hostility = hostility || false;
             this.type = type || job.type || "basic";
             this.current_event = current_event || job.birth_event// || new storyEvent(null,'town');
-            this.speech = ["Life is but a fleeting indescribable illusion. I do not know if I exist, or even if you exist, but it makes no difference to me anyway."];  
+            this.intro = intro || false;
+             
         }
     }
     selectRandomJob()
@@ -92,3 +92,31 @@ module.exports = class entity
         return data[index];
     }
 }
+
+
+
+// Item -> {str = 0,dex = 0 ,int = 0,stam = 0 ,will = 0 ,agi = 0,cha = 0}
+
+
+// const {str,dex,int,stam,will,agi,cha} = player.stats;
+// if(item.isEquipped)
+//{
+// str + item.stats.str
+// dex + item.stats.dex
+// int + item.stats.int
+// stam + item.stats.stam
+// will + item.stats.will
+// agi + item.stats.agi
+// cha + item.stats.cha
+//}
+// str+1
+
+
+
+// func use(item){
+//     item.mod=key 
+//     player.stats[key]=player.stats[key]+item.mod}
+    
+// func unequip(item){
+// item.mod=key 
+// player.stats[key]=player.stats[key]+item.mod}
