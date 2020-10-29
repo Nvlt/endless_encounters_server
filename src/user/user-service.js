@@ -32,6 +32,12 @@ const UserService = {
       id: user.id,
       username: user.username
     }
+  },
+  getUserGameData:async(db,access_token)=>
+  {
+    const data = await db.raw(`SELECT "username","entity" FROM "user" WHERE "access_token" = '${access_token}';`);
+    //console.log(data);
+    return data.rows;
   }
 }
 

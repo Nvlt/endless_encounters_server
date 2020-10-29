@@ -4,7 +4,7 @@ module.exports = {
     
     jobs:{
         
-        Warrior:new job({name:"Warrior",desc:"Big smashy boy",base_stats:{str:15,stam:14,agi: 13,dex: 12,cha:10,int:8},abilities:{
+        Warrior:new job({name:"Warrior", key:'Warrior',desc:"Big smashy boy",base_stats:{str:15,stam:14,agi: 13,dex: 12,cha:10,int:8},abilities:{
             Attack:abilities.Attack,
             'End Turn':abilities.endTurn,
             flee:abilities.flee,

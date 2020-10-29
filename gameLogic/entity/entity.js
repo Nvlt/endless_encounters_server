@@ -9,7 +9,7 @@ module.exports = class entity
         
         if(data)
         {
-            let {name, desc, job, speechType,statPoints, level, intro, abilities, exp, hp, max_hp,mp, current_event, type, stats, gold, hostility} = data;
+            let {name, desc, job, speechType,statPoints, level, intro, abilities, exp, hp, max_hp,mp, type, stats, gold, hostility} = data;
             //inventory = [new item(),new item(),new item()];
             if(job)
             {
@@ -80,7 +80,7 @@ module.exports = class entity
             //this.gear=gear || { }
             this.hostility = hostility || false;
             this.type = type || job.type || "basic";
-            this.current_event = current_event || job.birth_event// || new storyEvent(null,'town');
+            //this.current_event = current_event || job.birth_event// || new storyEvent(null,'town');
             this.intro = intro || false;
              
         }
