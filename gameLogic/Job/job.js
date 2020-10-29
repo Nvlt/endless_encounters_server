@@ -6,7 +6,7 @@ module.exports = class job
         {
             data = {};
         }
-        let {name, desc,base_stats, abilities} = data;
+        let {name,key, desc,base_stats, abilities} = data;
         if(!base_stats)
         {
             base_stats = {}
@@ -19,6 +19,7 @@ module.exports = class job
         // const {helm,gloves,boots,chest,leggings,mainhand,offhand} = base_gear;
         this.name = name || "Indescribable"
         this.desc = desc || "Sometimes what we do doesn't make sense at all.";
+        this.key = key || `add a key to the job of the name ${this.name} to fix this bug.`
         this.base_stats = {
 
             str:str || 0,

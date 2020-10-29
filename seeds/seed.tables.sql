@@ -61,8 +61,11 @@ TRUNCATE
                     "speechType",
                     "statPoints",
                     "exp",
+                    "max_exp",
                     "hp",
                     "max_hp",
+                    "mp",
+                    "max_mp",
                     "current_event",
                     "hostility")
   VALUES(
@@ -75,8 +78,10 @@ TRUNCATE
         50,
         'basic',
         0,
+        1000,
         50,
         150,
+        300,
         300,
         1,
         FALSE),

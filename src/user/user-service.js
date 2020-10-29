@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-
+const {v4:uuid} = require('uuid');
 const UserService = {
   hasUserWithUserName(db, username) {
     return db
@@ -38,6 +38,15 @@ const UserService = {
     const data = await db.raw(`SELECT "username","entity" FROM "user" WHERE "access_token" = '${access_token}';`);
     //console.log(data);
     return data.rows;
+  },
+  updateAccessToken:async(db,username)=>
+  {
+    
+    const newToken = uuid();
+    console.log(username);
+    const data = await db.raw(`UPDATE "user" SET "access_token" = '${newToken}' WHERE "username" = '${username}' `)
+    //console.log(data);
+    return newToken;
   }
 }
 

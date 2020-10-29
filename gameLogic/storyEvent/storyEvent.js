@@ -5,6 +5,7 @@ const speech = require('../Content/speech');
 const sArray = require('../utility/sArray');
 const characters = require('../Content/characters');
 const place =  require('../Content/place');
+const abli = require('../Content/abilities');
 
 module.exports = class storyEvent
 {
@@ -48,7 +49,7 @@ module.exports = class storyEvent
         }
         else
         {
-            this.player = new entity({name:"Joe",desc:"Just some guy."});
+            this.player = new entity({name:"Joe",desc:"Just some guy.",type:'player'});
         }
         
         this.pData = new place(this);
@@ -154,7 +155,11 @@ module.exports = class storyEvent
             }
             else if(this.player.hp > 0)
             {
-                this.displayText += `\n\nThe ${this.entities[0].name} stares at you. ${this.turn}`;
+                this.displayText += `\n\n${this.entities[0].name} stares at you.`;
+                if(this.ap <= 0)
+                {
+                    this.choices = {'End Turn':abli.endTurn};
+                }
                 if(this.combat && this.turn == 'enemy')
                 {
                     const skill = this.randomAbility(this.entities[0].abilities)
@@ -208,7 +213,7 @@ module.exports = class storyEvent
         }
         if(this.ap <= 0)
         {
-            this.turn = 'enemy';
+            this.choices = {'End Turn':abli.endTurn};
         }
         if(player.hp <= 0)
         {
@@ -331,7 +336,3 @@ module.exports = class storyEvent
         
     }
 }
-
-//Todo Death
-//Todo LevelUp
-//Todo interact >> Todo Combat

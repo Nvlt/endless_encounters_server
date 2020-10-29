@@ -12,8 +12,10 @@ CREATE TABLE "entity" (
   "speechType" TEXT,
   "statPoints" INT,
   "exp" INT,
+  "max_exp"INT,
   "hp" INT,
   "max_hp" INT,
   "mp" INT,
+  "max_mp"INT,
   "current_event" INT,
   "hostility" BOOLEAN);

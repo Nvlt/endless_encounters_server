@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const UserService = require('./user-service');
+const {v4:uuid} = require('uuid');
 
 const userRouter = express.Router();
 const jsonBodyParser = express.json();
@@ -41,7 +42,9 @@ userRouter
       const newUser = {
         email,
         username,
-        password: hashedPassword
+        password: hashedPassword,
+        access_token:uuid()
+
       }
 
       const user = await UserService.insertUser(req.app.get('db'), newUser);
