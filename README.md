@@ -1,5 +1,5 @@
 # Endless Encounters API  
-[Endless Encounters](https://endless-encounters.vercel.app/ "Endless Encounters") ||
+[Endless Encounters](https://endless-encounters-chi.vercel.app/ "Endless Encounters") ||
 [Client GitHub](https://github.com/EndlessEncounters/client "Client GitHub") ||
 [API GitHub](https://github.com/EndlessEncounters/server "API Github")  
 By: [John Pendergast](https://github.com/Jpending "John Pendergast"),
@@ -36,7 +36,7 @@ The POST command on '/auth' accepts a username and password.
     "password": "password123!"
 }
 ```
-Successful POST's return a `200 OK` response and assign a jwt-token. 
+Successful POST's return a `200 OK` response and assign a jwt-token. c
 
 ### '/inventory'
 
