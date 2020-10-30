@@ -11,16 +11,13 @@ const roll=function (max) {
     max=Math.floor(max);
     return Math.floor(Math.random()*(max-min)+min); //The maximum is exclusive and the minimum is inclusive
 }
-const verbs=(caster)=>
-{
-    const you =    {dodge:'dodge',attack:'attack',strike:'strike',prepare:'prepare',ready:'ready',their:'their', have:'have',them:'them',miss:'miss',hit:'hit',channel:'channel', hurl:'hurl'}
-    const enemy =  {dodge:'dodges',attack:'attacks',strike:'strikes',prepare:'prepares',ready:'readys',their:'your', have:'has',them:'you',miss:'misses',hit:'hits',channel:'channel', hurl:'hurls'}
-    if(caster.type == 'player')
-    {
+const verbs=(caster) => {
+    const you={dodge: 'dodge', attack: 'attack', strike: 'strike', prepare: 'prepare', ready: 'ready', their: 'their', have: 'have', them: 'them', miss: 'miss', hit: 'hit', channel: 'channel', hurl: 'hurl'}
+    const enemy={dodge: 'dodges', attack: 'attacks', strike: 'strikes', prepare: 'prepares', ready: 'readys', their: 'your', have: 'has', them: 'you', miss: 'misses', hit: 'hits', channel: 'channel', hurl: 'hurls'}
+    if(caster.type=='player') {
         return you;
     }
-    else
-    {
+    else {
         return enemy;
     }
 }
@@ -312,12 +309,12 @@ module.exports={
         StoryEvent.player.hp=0;
         return StoryEvent
     }),
-    'Fire Ball': new ability({name: 'Fire Ball', desc: 'Cast a Fire Ball.', cost: 5 ,type:'offense'}, (StoryEvent, caster, target) => {
+    'Fire Ball': new ability({name: 'Fire Ball', desc: 'Cast a Fire Ball.', cost: 5, type: 'offense'}, (StoryEvent, caster, target) => {
         const cost=50;
-        
+
 
         StoryEvent.combat=true;
-        let {channel, hurl, have, dodge} = verbs(caster);
+        let {channel, hurl, have, dodge}=verbs(caster);
         let name=(StoryEvent.turn=='player')? 'You':caster.name;
         let tName=(StoryEvent.turn=='enemy')? 'You':target.name;
         let pronoun=(StoryEvent.turn=='player')? 'Your':'their';
@@ -374,15 +371,15 @@ module.exports={
         }
         return StoryEvent;
     }),
-    Attack: new ability({name: "Attack", desc: "A basic attack.", type:'offense'}, (StoryEvent, caster, target) => {
+    Attack: new ability({name: "Attack", desc: "A basic attack.", type: 'offense'}, (StoryEvent, caster, target) => {
         const cost=5;
         const apCost=5;
         // if(caster.type=='player') {
         //     StoryEvent.ap-=apCost;
         // }
         StoryEvent.combat=true;
-        let name=(caster.type == 'player')? 'You':caster.name;
-        let {prepare, attempt, hit, miss} = verbs(caster)
+        let name=(caster.type=='player')? 'You':caster.name;
+        let {prepare, attempt, hit, miss}=verbs(caster)
         let tName=target.name;
         let pronoun=(StoryEvent.turn=='player')? 'Your':'their';
         StoryEvent.displayText=`\n\n${name} ${prepare} to attack.`

@@ -19,10 +19,10 @@ userRouter.route('/story/:id').get(jsonBodyParser, async (req,res,next)=>{
 userRouter
   .route('/')
   .post(jsonBodyParser, async (req, res, next) => {
-    const { email, password, username } = req.body;
+    const {email, password, username}=req.body;
 
-    for (const field of ['email', 'username', 'password']) {
-      if (!req.body[field]) {
+    for(const field of ['email', 'username', 'password']) {
+      if(!req.body[field]) {
         return res.status(400).json({
           error: `Missing ${field} in request body`
         });
@@ -30,30 +30,30 @@ userRouter
     }
 
     try {
-      const passwordError = UserService.validatePassword(password);
-      if (passwordError) return res.status(400).json({ error: passwordError });
+      const passwordError=UserService.validatePassword(password);
+      if(passwordError) return res.status(400).json({error: passwordError});
 
-      const hasUsername = await UserService.hasUserWithUserName(req.app.get('db'), username);
-      if (hasUsername) return res.status(400).json({ error: 'Username already taken' });
+      const hasUsername=await UserService.hasUserWithUserName(req.app.get('db'), username);
+      if(hasUsername) return res.status(400).json({error: 'Username already taken'});
 
-      const hashedPassword = await UserService.hashPassword(password);
+      const hashedPassword=await UserService.hashPassword(password);
 
-      const newUser = {
+      const newUser={
         email,
         username,
         password: hashedPassword,
-        access_token:uuid()
+        access_token: uuid()
 
       }
 
-      const user = await UserService.insertUser(req.app.get('db'), newUser);
+      const user=await UserService.insertUser(req.app.get('db'), newUser);
 
-      res.status(201)
+      return res.status(201)
         .location(path.posix.join(req.originalUrl, `/${user.id}`))
         .json(UserService.serializeUser(user))
-    } catch (error) {
+    } catch(error) {
       next(error);
     }
   });
 
-  module.exports = userRouter;
+module.exports=userRouter;
