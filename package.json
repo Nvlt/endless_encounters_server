@@ -4,6 +4,7 @@
   "description": "",
   "main": "src/server.js",
   "dependencies": {
+    "atob": "^2.1.2",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",

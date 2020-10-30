@@ -1,7 +1,16 @@
 const job=require('../Job/job');
 const abilities=require('../Content/abilities');
 module.exports={
-
+    specialAbilities:{
+        Heavy: abilities.HeavyAttack,
+        Quick: abilities.QuickAttack,
+        Punch: abilities.UnarmedAttack,
+        'Scratch':abilities.QuickAttack,
+        'Bite': abilities.HeavyAttack,
+        'End Turn':abilities.endTurn,
+        'Wizard Slap':abilities.UnarmedAttack
+    },
+        
     jobs: {
 
         Warrior: new job({
@@ -34,7 +43,7 @@ module.exports={
                key:'Mage', name: "Mage", desc: "a wispy wizard person", base_stats: {str: 2, stam: 5, agi: 13, dex: 12, cha: 10, int: 20, will: 10}, abilities: {
                 Attack: abilities.Attack,
                 'Wizard Slap': abilities.UnarmedAttack,
-                'Fire Ball': abilities.fireBall,
+                'Fire Ball': abilities['Fire Ball'],
                 heal: abilities.heal,
                 'End Turn': abilities.endTurn,
                 flee: abilities.flee,
@@ -43,7 +52,7 @@ module.exports={
         }),
         Test_Enemy: new job({
                key:'Test_Enemy', name: "an enemy", desc: "an enemy", base_stats: {str: 2, stam: 5, agi: 13, dex: 12, cha: 10, int: 20, will: 200}, abilities: {
-                'Fire Ball': abilities.fireBall,
+                'Fire Ball': abilities['Fire Ball'],
                 Attack: abilities.Attack,
                 Heavy: abilities.HeavyAttack,
                 Quick: abilities.QuickAttack,

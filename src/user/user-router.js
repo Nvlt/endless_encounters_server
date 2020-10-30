@@ -5,12 +5,11 @@ const {v4:uuid} = require('uuid');
 
 const userRouter = express.Router();
 const jsonBodyParser = express.json();
-userRouter.route('/entity/:id').get(jsonBodyParser, async (req,res,next)=>{
+userRouter.route('/story/:id').get(jsonBodyParser, async (req,res,next)=>{
   const db = req.app.get('db');
   const {id} = req.params;
   const data = await UserService.getUserGameData(db, id);
-  console.log(data);
-  if(!data.length)
+  if(!data)
   {
     return res.status(400).json({Error:"Denied"})
   }

@@ -11,7 +11,7 @@ authRouter
   .route('/login')
   .post(jsonBodyParser, async (req, res, next) => {
     const { username, password } = req.body;
-    console.log(username,password)
+    //////console.log(username,password)
     const loginUser = { username, password };
 
     for (const [key, value] of Object.entries(loginUser)) {

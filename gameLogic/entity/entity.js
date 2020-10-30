@@ -6,10 +6,11 @@ module.exports = class entity
     
     constructor(data = {})
     {
-        
+        const {jobs} = require('../Content/jobs');
         if(data)
         {
-            let {name, desc, job, speechType,statPoints, level, intro, abilities, exp, hp, max_hp,mp, current_event, type, stats, gold, hostility} = data;
+            let {name, desc, job, speechType,statPoints, level, intro, abilities, exp, hp, max_hp,mp, current_event, type, stats, gold, hostility,serverData} = data;
+            this.serverData = serverData;
             //inventory = [new item(),new item(),new item()];
             if(job)
             {
@@ -69,7 +70,7 @@ module.exports = class entity
             }
             else
             {
-                console.log(this.stats);
+                //////console.log(this.stats);
                 this.max_hp = this.base_hp + (this.stats.stam * 10);
             }
             this.hp = (hp != undefined)? hp : this.max_hp;

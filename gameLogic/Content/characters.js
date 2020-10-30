@@ -1,7 +1,8 @@
-const {jobs}=require('./jobs');
-const entity=require('../entity/entity');
+
 module.exports=class characters {
     constructor(StoryEvent) {
+        const {jobs}=require('./jobs');
+        const entity=require('../entity/entity');
         this.characters={
             class_screen: [],
             start_screen: [],

@@ -10,6 +10,7 @@ CREATE TABLE "story" (
   "lastTavern" TEXT,
   "lastTown" TEXT,
   "desc" TEXT,
+  "choices" TEXT[],
   "player" INT,
   "ap" INT,
   "turn" TEXT,
