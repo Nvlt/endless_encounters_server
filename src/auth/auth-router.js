@@ -1,6 +1,8 @@
 const express = require('express');
 const AuthService = require('./auth-service');
+const {v4:uuid} = require('uuid');
 const { requireAuth } = require('../middleware/jwt-auth');
+const userServices = require('../user/user-service');
 
 const authRouter = express.Router();
 const jsonBodyParser = express.json();
@@ -9,6 +11,7 @@ authRouter
   .route('/login')
   .post(jsonBodyParser, async (req, res, next) => {
     const { username, password } = req.body;
+    console.log(username,password)
     const loginUser = { username, password };
 
     for (const [key, value] of Object.entries(loginUser)) {
@@ -28,7 +31,8 @@ authRouter
       const sub = dbUser.username;
       const payload = {
         user_id: dbUser.id,
-        name: dbUser.name
+        name: dbUser.name,
+        access_token:await userServices.updateAccessToken(req.app.get('db'),sub)
       }
       res.send({
         authToken: AuthService.createJwt(sub, payload)

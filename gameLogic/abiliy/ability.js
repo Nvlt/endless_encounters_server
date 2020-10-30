@@ -1,34 +1,59 @@
- module.exports = class ability
-{
-    constructor(data = {}, logic = (StoryEvent, caster = null, target = null)=>{return StoryEvent})
-    {
-        if(data)
-        {
-            var {name, desc} = data;
+module.exports=class ability {
+    constructor(data={}, logic=(StoryEvent, caster=null, target=null) => {return StoryEvent}) {
+        if(data) {
+            var {name, desc, cost, type}=data;
         }
-        this.name = data.name || "";
-        this.desc = data.desc || "";
-        this.logic = logic;
-        
+        this.name=name||"";
+        this.desc=desc||"";
+        this.cost=cost||0;
+        this.type=type||'harmless';
+        this.logic=logic;
+
     }
-    do(event = this.StoryEvent, caster = (event.turn == 'player')?event.player : event.entities[0], target = (event.turn == 'enemy')?event.player : event.entities[0], data = this)
-    {
-        if(event)
-        {
-            const result = this.logic( event, caster, target, data );
-            if(result.dataType === 'StoryEvent')
+    do(event=this.StoryEvent, caster=(event.turn=='player')? event.player:event.entities[0], target=(event.turn=='enemy')? event.player:event.entities[0], data=this) {
+        if(event) {
+           
+            if(this.type == 'offense')
             {
+                
+                if(!target)
+                {
+                    event.displayText = '\n\nYou can\'t...\n';
+                    return event;
+                }
+                event.combat = true;
+            }
+            if(caster.type=='player') {
+                if(this.cost <= event.ap)
+                {
+                    event.ap-=this.cost;
+                }
+                else {
+                    event.displayText=`\n\n${caster.name} Not enough ap!\n`;
+                    //event.turn='enemy';
+                    return event;
+    
+                }
+                
+            }
+            
+            
+            const result=this.logic(event, caster, target, data);
+            if(result.dataType==='StoryEvent') {
+                
                 return result;
             }
-            else
-            {
+            else {
                 throw new Error('Ability must return storyevent')
             }
+            
+            
+
         }
-        else
-        {
+        else {
             throw new Error("Abilities must take storyevent");
         }
+
     }
 }
 
@@ -49,7 +74,7 @@
 
 //const unarmedAttack = new ability()
 //unarmedAttack.desc = "You attempt to attck your target."
-//unarmedAttack.logic=()=>{ 
+//unarmedAttack.logic=()=>{
     //const hitRoll=roll20+Str
 //if hitRoll >= target.Stam+(Agi/2) unarmedAttack.Hit=true
 //if unarmedAttack.Hit return unarmedAttack.damage=char.Str+1

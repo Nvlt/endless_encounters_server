@@ -1,10 +1,22 @@
 const express = require('express');
 const path = require('path');
 const UserService = require('./user-service');
+const {v4:uuid} = require('uuid');
 
 const userRouter = express.Router();
 const jsonBodyParser = express.json();
+userRouter.route('/entity/:id').get(jsonBodyParser, async (req,res,next)=>{
+  const db = req.app.get('db');
+  const {id} = req.params;
+  const data = await UserService.getUserGameData(db, id);
+  console.log(data);
+  if(!data.length)
+  {
+    return res.status(400).json({Error:"Denied"})
+  }
+  return res.status(200).json(data);
 
+})
 userRouter
   .route('/')
   .post(jsonBodyParser, async (req, res, next) => {
@@ -30,7 +42,9 @@ userRouter
       const newUser = {
         email,
         username,
-        password: hashedPassword
+        password: hashedPassword,
+        access_token:uuid()
+
       }
 
       const user = await UserService.insertUser(req.app.get('db'), newUser);
