@@ -5,5 +5,11 @@ const EntityService = require('../src/entity/entity-service');
 const app = require('../src/app');
 
 describe('EntityService object', () => {
+    it('', () => {
 
+    })
+
+    it('', () => {
+        
+    })
 })

@@ -5,5 +5,11 @@ const StoryService = require('../src/story/story-service');
 const app = require('../src/app');
 
 describe('StoryService object', () => {
+    it('', () => {
 
+    })
+
+    it('', () => {
+        
+    })
 })

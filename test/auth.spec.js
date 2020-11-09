@@ -5,5 +5,11 @@ const AuthService = require('../src/auth/auth-service');
 const app = require('../src/app');
 
 describe('AuthService object', () => {
+    it('', () => {
 
+    })
+
+    it('', () => {
+        
+    })
 })
