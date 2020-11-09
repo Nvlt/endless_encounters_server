@@ -13,12 +13,12 @@ module.exports=class speech {
                 general: [
                     `So ends the life of the pathetic ${this.player.name}!`,
                     `It could have been great, ${this.player.name}, but alas you had to go..`,
-                    `Bahahahaa!! You're a fool, ${this.player.name}!`,
+                    `Bahahahaa!! You''re a fool, ${this.player.name}!`,
                     `That will teach you! I ${StoryEvent.entities[0].name} am a GOD!! Goodbye ${this.player.name}.`
                 ],
                 beetle: [
                     `See you in Hell!`,
-                    `You're dead!`
+                    `you''re dead!`
                 ],
                 dragon: [
                     `Foolish human, challenging me was the last mistake you will ever make.`,
@@ -43,7 +43,7 @@ module.exports=class speech {
                 drunk: [
                     `momma...just killed a...`,
                     `take me home, COUNTRY ROADS!!`,
-                    "We're no strangers to love..."
+                    "We''re no strangers to love..."
                 ],
                 goblin: [
                     'WAHOO! Now me take shiny',
@@ -74,7 +74,7 @@ module.exports=class speech {
                 general: [
                     `So ends the life of the pathetic ${this.player.name}!`,
                     `It could have been great, ${this.player.name}, but alas you had to go..`,
-                    `Bahahahaa!! You're a fool, ${this.player.name}!`,
+                    `Bahahahaa!! you''re a fool, ${this.player.name}!`,
                     `That will teach you! I ${StoryEvent.entities[0].name} am a GOD!! Goodbye ${this.player.name}.`
                 ],
                 dragon: [
@@ -100,12 +100,12 @@ module.exports=class speech {
                     'We trade? Want shiny.'
                 ],
                 beetle: [
-                    'IT\'S SHOWTIME!',
-                    'Not so fast, roundy. We\'re gonna have some laughs',
-                    'Not so fast, Brawnda. We\'re taking attendance today and you\'re late...',
+                    `IT''S SHOWTIME!`,
+                    `Not so fast, roundy. We''re gonna have some laughs`,
+                    `Not so fast, Brawnda. We''re taking attendance today and you''re late...`,
                 ],
                 villager: [
-                    `Oh, a ${this.player.job.name} huh? ${(this.player.job.name=='Mage')? 'Are you gonna do a magic trick?':`It's good to see folks with such upstanding careers.`}`,
+                    `Oh, a ${this.player.job.name} huh? ${(this.player.job.name=='Mage')? 'Are you gonna do a magic trick?':`It''s good to see folks with such upstanding careers.`}`,
                     `Oh, a ${this.player.job.name} huh? ${(this.player.job.name=='Mage')? `Don't see many of them around here.`:`Gonna go out and slay the dragon?`}`,
                     `Oh, a ${this.player.job.name} huh? ${(this.player.job.name=='Mage')? `Keep your filthy magic to yourself.`:`Well piss off ya brute!`}`,
                     `Good day to ya.`,
@@ -117,7 +117,7 @@ module.exports=class speech {
                     'Get me another drink, would ya?'
                 ],
                 tiff: [
-                    `That's fucking bologna, my dude.`,
+                    `That''s fucking bologna, my dude.`,
                     `brb :--)`,
                     `Sorry I'm late...`
                 ],
@@ -143,7 +143,7 @@ module.exports=class speech {
                     For example a dragon entity would be given the speechType of dragon.
                 */
                 general: [
-                    `Bahahahaa!! You're a fool, ${this.player.name}!`,
+                    `Bahahahaa!! you''re a fool, ${this.player.name}!`,
                     `Prepare to die!`,
                     `Prepare for trouble, and make it double..`,
                     `Give me your money!`,
@@ -151,11 +151,11 @@ module.exports=class speech {
 
                 ],
                 beetle: [
-                    `Let's turn on the juice and see what shakes loose`,
+                    `Let''s turn on the juice and see what shakes loose`,
                     `I'm the ghost with the most babe and your ass is toast`
                 ],
                 villager: [
-                    `Oh, a ${this.player.job.name} huh? ${(this.player.job.name=='Mage')? 'Are you gonna do a magic trick?':`It's good to see folks with such upstanding careers.`}`,
+                    `Oh, a ${this.player.job.name} huh? ${(this.player.job.name=='Mage')? 'Are you gonna do a magic trick?':`It''s good to see folks with such upstanding careers.`}`,
                     `Oh, a ${this.player.job.name} huh? ${(this.player.job.name=='Mage')? `Don't see many of them around here.`:`Gonna go out and slay the dragon?`}`,
                     `Good day to ya.`,
                     `Happy to see ya.`
@@ -184,7 +184,7 @@ module.exports=class speech {
                     `YAAHHAHAHARARARARRRRAAA`
                 ],
                 drunk: [
-                    `you...you think you're better than me?`,
+                    `you...you think you''re better than me?`,
                     `Respect me, respect my money...`,
                     `you feel lucky, punk?`
                 ],

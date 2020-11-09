@@ -20,8 +20,9 @@ router.route('/').post(jsonBodyParser, async (req, res, next) => {
       let gameState = await userService.getUserGameDataForEngine(db,accessAuth['access_token']);
       let serverData_player = gameState.player.serverData;
       let serverData_story = gameState.serverData;
-      
+      gameState.displayText = null;
       gameState = gameState.makeChoice(choice);
+      //console.log(gameState.displayText)
       gameState.serverData = serverData_story;
       gameState.player.serverData = serverData_player;
       gameState.player.current_event = serverData_story.id;

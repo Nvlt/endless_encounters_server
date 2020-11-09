@@ -7,8 +7,8 @@ const roll=function (max) {
     return Math.floor(Math.random()*(max-min)+min); //The maximum is exclusive and the minimum is inclusive
 }
 const verbs=(caster) => {
-    const you={dodge: 'dodge', attack: 'attack', strike: 'strike', prepare: 'prepare', ready: 'ready', their: 'their', have: 'have', them: 'them', miss: 'miss', hit: 'hit', channel: 'channel', hurl: 'hurl'}
-    const enemy={dodge: 'dodges', attack: 'attacks', strike: 'strikes', prepare: 'prepares', ready: 'readys', their: 'your', have: 'has', them: 'you', miss: 'misses', hit: 'hits', channel: 'channel', hurl: 'hurls'}
+    const you={dodge: 'dodge', attack: 'attack',attempt:'attempt', strike: 'strike', prepare: 'prepare', ready: 'ready', their: 'their', have: 'have', them: 'them', miss: 'miss', hit: 'hit', channel: 'channel', hurl: 'hurl'}
+    const enemy={dodge: 'dodges', attack: 'attacks',attempt:'attempts', strike: 'strikes', prepare: 'prepares', ready: 'readys', their: 'your', have: 'has', them: 'you', miss: 'misses', hit: 'hits', channel: 'channel', hurl: 'hurls'}
     if(caster.type=='player') {
         return you;
     }
@@ -348,7 +348,7 @@ module.exports={
     Check: new ability({name: "Check target", desc: "A game testing ability."}, (StoryEvent, caster, target) => {
         if(caster&&target) {
 
-            StoryEvent.displayText=`${StoryEvent.turn}'s turn. ${caster.name} targets ${target.name}`;
+            StoryEvent.displayText=`${StoryEvent.turn}''s turn. ${caster.name} targets ${target.name}`;
         }
 
         return StoryEvent;
@@ -375,7 +375,7 @@ module.exports={
         let {prepare, attempt, hit, miss}=verbs(caster)
         let tName=target.name;
         let pronoun=(StoryEvent.turn=='player')? 'Your':'their';
-        StoryEvent.displayText=`\n\n${name} ${prepare} to attack.`
+        StoryEvent.displayText=`\n\n${name} ${prepare} to attack.\n`
         const hitRoll=roll(20);
         if(caster&&target) {
 
@@ -447,7 +447,7 @@ module.exports={
                 if(caster.type==='player') {
                     StoryEvent.ap-=cost;
                 }
-                StoryEvent.displayText+=`\n\n${name} launches their attack ${target.name}'s way!`
+                StoryEvent.displayText+=`\n\n${name} launches their attack ${target.name}''s way!`
                 if(hitRoll===1) {
             
                     const dmg=((str+4)/4)

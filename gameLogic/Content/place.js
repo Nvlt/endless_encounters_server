@@ -53,7 +53,7 @@ module.exports=class place {
                 name_screen: {
                     names: [''],
                     text: ['Welcome to Endless Encounters\n'],
-                    afterText: ['\nWhat is your name?\n\n'],
+                    afterText: ['\nWhat is your name\\?\n\n'],
                     choices: {}
                 },
                 desc_screen: {
@@ -82,13 +82,13 @@ module.exports=class place {
                 cave: {
                     names: ['dark cave', 'glowing mushroom cave', 'cave', 'cave of swallows'],
                     text: ["You enter the", "You quietly sneak into the", "You casually walk into the"],
-                    afterText: [".\nYou look around, amazed at it's natural beauty.", ".\nIt is very quiet..\nToo quiet..."],
+                    afterText: [".\nYou look around, amazed at it\'s natural beauty.", ".\nIt is very quiet..\nToo quiet..."],
                     choices: {leave: abilities.leave_cave, 'continue deeper': abilities.deep_cave}
                 },
                 deep_cave: {
                     names: ['cave'],
                     text: ["You explore deeper into the", "You quietly continue to explore the", "You casually walk deeper into the"],
-                    afterText: [".\nIt's getting darker.", ".\nYou hear drips on the near by rocks..", ".\nIt is very quiet..\nToo quiet..."],
+                    afterText: [".\nIt\'s getting darker.", ".\nYou hear drips on the near by rocks..", ".\nIt is very quiet..\nToo quiet..."],
                     choices: {'continue deeper': abilities.deep_cave, leave: this.randomChoice('cave')}
                 },
                 abandoned_castle: {
@@ -104,9 +104,9 @@ module.exports=class place {
                     choices: {Continue: abilities.tavern, 'Start again': abilities.name_screen}
                 },
                 tavern: {
-                    names: ['the tavern.', 'Broken Spoon Tavern.', 'Meowing Mug.', 'Penuches.', "Poor Richard's.",],
+                    names: ['the tavern.', 'Broken Spoon Tavern.', 'Meowing Mug.', 'Penuches.',],
                     text: ["You awake at"],
-                    afterText: ['\n\nYou feel refreshed.', 'You feel a little hungover, but nothing an advil can\'t cure'],
+                    afterText: ['\n\nYou feel refreshed.', `You feel a little hungover, but nothing an advil can''t cure`],
                     choices: {leave:abilities.leaveTavern}
                 }
                 /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE

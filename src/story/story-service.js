@@ -148,7 +148,10 @@ module.exports = class storyService{
         
         data.entities = entityArray;
         data.choices = formatAbilitiesForEngine(data.choices);
+        let tmText = data.displayText;
+        data.displayText = null;
         const newStory = new storyEvent(data);
+        newStory.displayText = tmText;
         newStory.serverData = {id:id};
         return newStory;
     }
