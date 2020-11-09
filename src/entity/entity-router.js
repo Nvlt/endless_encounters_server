@@ -11,7 +11,7 @@ router.route('/:id').get(jsonBodyParser, async (req, res, next) => {
     if(!typeof id=='number') {
         return res.status(400).json({Error: 'Not found.'})
     }
-    const data=await entityService.getEntityById(db, id);
+    const data=await entityService.getEntityByIdForEngine(db, id);
     res.status(200).json(data);
 
 });

@@ -22,7 +22,9 @@ module.exports=class place {
             Start:abilities.name_screen,
             'Rest at tavern':abilities.tavern,
             leave:abilities.leave_cave,
-            inspect:this.randomChoice('explore')
+            inspect:this.randomChoice('explore'),
+            Continue: abilities.tavern, 
+            'Start again': abilities.name_screen
         }
         
         
@@ -32,7 +34,7 @@ module.exports=class place {
             this.player=StoryEvent.player||{name: undefined, desc: undefined};
         
         
-            ////////console.log(StoryEvent);
+           
             
             
             this.descData={
@@ -105,7 +107,7 @@ module.exports=class place {
                     names: ['the tavern.', 'Broken Spoon Tavern.', 'Meowing Mug.', 'Penuches.', "Poor Richard's.",],
                     text: ["You awake at"],
                     afterText: ['\n\nYou feel refreshed.', 'You feel a little hungover, but nothing an advil can\'t cure'],
-                    choices: {Leave: abilities.leaveTavern}
+                    choices: {leave:abilities.leaveTavern}
                 }
                 /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
                 /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
@@ -120,13 +122,13 @@ module.exports=class place {
     }
     selectRandomData(type, key) {
         const data=this.descData[type][key]
-        ////////console.log(data);
+      
         const index=Math.round(Math.random()*(data.length-1))
         return data[index];
     }
     randomChoice(type) {
         const data=this.choices[type]
-        ////////console.log(data);
+  
         const index=Math.round(Math.random()*(data.length-1))
         return data[index];
     }

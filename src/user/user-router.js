@@ -8,7 +8,7 @@ const jsonBodyParser = express.json();
 userRouter.route('/story/:id').get(jsonBodyParser, async (req,res,next)=>{
   const db = req.app.get('db');
   const {id} = req.params;
-  const data = await UserService.getUserGameData(db, id);
+  const data = await UserService.getUserGameDataForEngine(db, id);
   if(!data)
   {
     return res.status(400).json({Error:"Denied"})
@@ -20,7 +20,7 @@ userRouter
   .route('/')
   .post(jsonBodyParser, async (req, res, next) => {
     const {email, password, username}=req.body;
-
+    
     for(const field of ['email', 'username', 'password']) {
       if(!req.body[field]) {
         return res.status(400).json({

@@ -1,10 +1,11 @@
 const express = require('express');
 const path = require('path');
-const storyService = require('./story-service');
-const entityService = require('../entity/entity-service');
+let storyService = require('./story-service');
 const router = express.Router();
 const abilities = require('../../gameLogic/Content/abilities');
 const jsonBodyParser = express.json();
+
+storyService = new storyService();
 
 
 router.route('/:id').get(jsonBodyParser, async (req, res, next) => {

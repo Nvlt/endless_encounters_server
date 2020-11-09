@@ -70,7 +70,7 @@ module.exports = class entity
             }
             else
             {
-                //////console.log(this.stats);
+          
                 this.max_hp = this.base_hp + (this.stats.stam * 10);
             }
             this.hp = (hp != undefined)? hp : this.max_hp;

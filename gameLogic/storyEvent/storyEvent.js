@@ -12,7 +12,7 @@ module.exports = class storyEvent
     {
         
         const {type,pData,ap, displayText,lastTown,lastTavern,fromCombat, combat, turn, name, desc, choices, player, entities, activeEntity, serverData} = data;
-        ////////console.log(this.pData);
+       
         this.pData = pData || new place(this);
         this.serverData=serverData;
         this.type = type || 'start_screen';
@@ -39,7 +39,7 @@ module.exports = class storyEvent
             this.lastTown = undefined;
         }
         
-        ////////console.log(this.lastTown);
+      
         this.desc = desc || 'a new place';
         
         
@@ -70,17 +70,18 @@ module.exports = class storyEvent
         if(this.player.hp <= 0)
         {
             this.choices = this.pData.descData[this.type].choices;
+            this.combat = false;
         }
         
-        ////////console.log(this.choices);
+    
         this.max_ap = 10;
         this.ap = (ap != undefined)? ap : this.max_ap;
         this.fromCombat = fromCombat || false;
         this.activeEntity = activeEntity || 'player'
-        ////////console.log(turn);
+  
         this.turn = turn || 'player'
         this.entities = (this.roll(20) > 10 && !entities) ? [new characters(this).getCharacter(this.type)] : undefined || entities || [];
-        ////////console.log(this.entities);
+
         this.dataType = "StoryEvent";
         if(this.type == 'start_screen' || this.type == 'class_screen' || this.type == 'name_screen' || this.type == 'desc_screen')
         {
@@ -89,7 +90,7 @@ module.exports = class storyEvent
         }
         else
         {
-            if(this.fromCombat)
+            if(this.fromCombat || this.player.hp <= 0)
             {
                 this.fromCombat = false;
             }
@@ -101,7 +102,7 @@ module.exports = class storyEvent
              
             this.displayPlayerStatus(this);
             this.displayChoices(); 
-            //////console.log(this.entities[0]);
+          
             
         }
           
@@ -117,7 +118,7 @@ module.exports = class storyEvent
     displayChoices()
     {
         let choices = this.choices;
-        ////////console.log(this.choices)
+     
         let display = new sArray();
         for(const [key, value] of Object.entries(choices))
         {
@@ -220,7 +221,7 @@ module.exports = class storyEvent
             }
             return StoryEvent;
         }
-        ////////console.log(entities);
+   
         for(const entity of entities)
         {
             if(entity.hp <= 0)

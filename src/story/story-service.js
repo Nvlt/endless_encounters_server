@@ -3,12 +3,12 @@ const { format } = require('morgan');
 const {v4:uuid} = require('uuid');
 const {jobs} = require('../../gameLogic/Content/jobs');
 let abilities = require('../../gameLogic/Content/abilities');
-const entityService = require('../entity/entity-service');
 const userService = require('../user/user-service');
 const storyEvent = require('../../gameLogic/storyEvent/storyEvent');
-const entity = require('../../gameLogic/entity/entity');
 const PLACE = require('../../gameLogic/Content/place');
 const {specialAbilities} = require('../../gameLogic/Content/jobs');
+let entityService = require('../entity/entity-service');
+entityService = new entityService();
 
 
 
@@ -21,11 +21,19 @@ const formatAbilitiesForClient=(ability_array)=>
     let result=[];
     for(const ability of ability_array)
     {
-        ////console.log(ability,_abilities[ability]);
-        const {name,desc,cost,type} = _abilities[ability]
-        result.push({displayName:ability,name,desc,cost,type});
+        
+        if(_abilities[ability])
+        {
+            const {name,desc,cost,type} = _abilities[ability]
+            result.push({displayName:ability,name,desc,cost,type});
+        }
+        else
+        {
+            throw new Error(`Ability Error: ${ability} could not be found. Add it into a special abilities array or something.`)
+        }
+        
     }
-    ////console.log(abilities['tavern']);
+  
     return result;
 }
 const formatAbilitiesForEngine=(ability_array)=>
@@ -44,7 +52,7 @@ const formatAbilitiesForEngine=(ability_array)=>
 const deconstructAbilities = (abilityObj)=>
 {
   result = '';
-  //console.log(abilityObj);
+  
   for(const [key, value] of Object.entries(abilityObj))
   {
     result += `,'${key}'`
@@ -59,22 +67,26 @@ const deconstructEntities = (entitiesArry)=>
         result = [];
         for(const entity of entitiesArry)
         {
-            result.push(entity.serverData.id);
+            if(entity)
+            {
+                result.push(entity.serverData.id);
+            }
+            
         }
         return result;
     }
 }
 const deconstructStory = (storyObj)=>
 {
-  ////console.log(entityObj);
+  
   if(storyObj)
   {
     storyObj.choices = deconstructAbilities(storyObj.choices);
     storyObj.entities = deconstructEntities(storyObj.entities);
-
+    
     let {type,displayText,combat,fromCombat,name,lastTavern,lastTown,desc,choices,player,ap,turn,entities} = storyObj;
     const data = {type,displayText,combat,fromCombat,name,lastTavern,lastTown,desc,choices,player,ap,turn,entities}
-    console.log(data)
+    
     return data;
   }
 }
@@ -95,19 +107,23 @@ const deconstructStory = (storyObj)=>
   "entities" INT[]
 );*/
 
-const storyService = {
+module.exports = class storyService{
  
-    getStoryByID:async(db,id)=>{
-        //////console.log(typeof id)
+    constructor()
+    {
+        this.deconstructStory = deconstructStory;
+    }
+    getStoryByID = async(db,id)=>{
+       
         if(!typeof id === 'number')
         {
             return {Error:'id must be an integer'};
         }
         let data = await db.raw(`SELECT * FROM "story" WHERE "id" = '${id}'`);
         data = data.rows[0];
-        //////console.log(data.player)
+
         data.player = await entityService.getEntityById(db,data.player)
-        entityArray = [];
+        let entityArray = [];
         for(const entity of data.entities)
         {
             entityArray.push(await entityService.getEntityById(db,entity));
@@ -115,61 +131,83 @@ const storyService = {
         data.entities = entityArray;
         data.choices = formatAbilitiesForClient(data.choices);
         return data;
-    },
-    getStoryByIDForEngine:async(db,id)=>{
+    }
+    getStoryByIDForEngine = async(db,id)=>{
         let data = await db.raw(`SELECT * FROM "story" WHERE "id" = '${id}'`);
         data = data.rows[0];
         data.player = await entityService.getEntityByIdForEngine(db,data.player)
-        entityArray = [];
-        for(const entity of data.entities)
+        let entityArray = [];
+        if(data.entities)
         {
-            entityArray.push(await entityService.getEntityByIdForEngine(db,entity));
+            for(const entity of data.entities)
+            {
+                entityArray.push(await entityService.getEntityByIdForEngine(db,entity));
+            }
+
         }
+        
         data.entities = entityArray;
         data.choices = formatAbilitiesForEngine(data.choices);
         const newStory = new storyEvent(data);
         newStory.serverData = {id:id};
         return newStory;
-    },
-    saveStory:async(db,storyObj)=>
-  {
-    //`UPDATE "user" SET "access_token" = '${newToken}' WHERE "username" = '${username}' `
-    //////console.log("mew",entityObj)
-    
-    ////console.log(entityObj,"meewww");
-    console.log("Meow object",storyObj.serverData);
-    const _story = deconstructStory(storyObj);
-    let {type,displayText,combat,fromCombat,name,lastTavern,lastTown,desc,choices,player,ap,turn,entities} = _story;
-    if(!entities.length)
-    {
-        entities = `array[]::INT[]`;
     }
-    else
+    createNewStory = async(db)=>
     {
-        entities = `ARRAY[${entities}]`
+        
+        let newStory = new storyEvent()
+        let data =  await db.raw(`INSERT INTO story DEFAULT VALUES RETURNING "id"`);
+        let id = data.rows[0].id
+        newStory.serverData = data.rows[0]
+        let player = await entityService.registerBlankEntity(db,id,'player'); //Create our initial player;
+        await entityService.registerBlankEntity(db,-1,'basic'); //Create a place holder for future entities;
+        newStory.player = {serverData:{id:player}};
+        
+        newStory.entities = [];
+        data = await this.saveStory(db,newStory)
+        return data;
+        
+        
     }
-    
-    
-    const data = await db.raw(`
-    UPDATE "story"
-    SET 
-    "type" = '${type}',
-    "name" = '${name}',
-    "desc" = '${desc}',
-    "choices" = ARRAY[${choices}],
-    "displayText" = '${displayText}',
-    "combat" = ${combat},
-    "fromCombat" = ${fromCombat},
-    "lastTavern" = '${lastTavern}',
-    "lastTown" = '${lastTown}',
-    "player" = ${player.serverData.id},
-    "ap" = ${ap},
-    "turn" = '${turn}',
-    "entities" = ${entities}
-    WHERE "id" = ${storyObj.serverData.id}
-    RETURNING *;`)
-    console.log(data.rows[0]);
-  }
+    saveStory = async(db,storyObj)=>
+    {
+        
+        const _story = deconstructStory(storyObj);
+        let {type,displayText,combat,fromCombat,name,lastTavern,lastTown,desc,choices,player,ap,turn,entities} = _story;
+        if(!entities.length)
+        {
+            entities = `array[]::INT[]`;
+        }
+        else
+        {
+            entities = `ARRAY[${entities}]`
+        }
+        if(!choices.length)
+        {
+            choices = `array[]::INT[]`;
+        }
+        
+        
+        console.log('Attempt to save story')
+        const data = await db.raw(`
+        UPDATE "story"
+        SET 
+        "type" = '${type}',
+        "name" = '${name}',
+        "desc" = '${desc}',
+        "choices" = ARRAY[${choices}],
+        "displayText" = '${displayText}',
+        "combat" = ${combat},
+        "fromCombat" = ${fromCombat},
+        "lastTavern" = '${lastTavern}',
+        "lastTown" = '${lastTown}',
+        "player" = ${player.serverData.id},
+        "ap" = ${ap},
+        "turn" = '${turn}',
+        "entities" = ${entities}
+        WHERE "id" = ${storyObj.serverData.id}
+        RETURNING *;`)
+        return data.rows[0];
+    }
 }
 
-module.exports = storyService;

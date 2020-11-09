@@ -1,9 +1,4 @@
 const ability=require('../abiliy/ability');
-const storyEvent=require('../storyEvent/storyEvent');
-const sArray=require('../utility/sArray');
-const entity=require('../entity/entity');
-const place=require('./place');
-const jobs = require('./jobs')
 const roll=function (max) {
     max=max+1;
     min=1;
@@ -61,7 +56,7 @@ module.exports={
     }),
     selectMage: new ability({name: 'Mage', desc: 'Select the Mage class.'}, (StoryEvent, caster) => {
         const {jobs}=require('../Content/jobs');
-        //////console.log(jobs)
+      
         StoryEvent.type='tavern';
         caster.job=jobs.Mage;
         caster.hp=undefined;
@@ -77,7 +72,7 @@ module.exports={
 
     }), selectWereCat: new ability({name: 'Select Test Cat', desc: 'Select the Test Cat class.'}, (StoryEvent, caster) => {
         const {jobs}=require('../Content/jobs');
-        //////console.log(jobs)
+    
         StoryEvent.type='tavern';
         caster.job=jobs.TestCat;
         caster.hp=undefined;
@@ -374,9 +369,7 @@ module.exports={
     Attack: new ability({name: "Attack", desc: "A basic attack.", type: 'offense'}, (StoryEvent, caster, target) => {
         const cost=5;
         const apCost=5;
-        // if(caster.type=='player') {
-        //     StoryEvent.ap-=apCost;
-        // }
+       
         StoryEvent.combat=true;
         let name=(caster.type=='player')? 'You':caster.name;
         let {prepare, attempt, hit, miss}=verbs(caster)
@@ -385,41 +378,41 @@ module.exports={
         StoryEvent.displayText=`\n\n${name} ${prepare} to attack.`
         const hitRoll=roll(20);
         if(caster&&target) {
-            //////console.log('has caster & target', StoryEvent.ap)
+
             let {str}=caster.stats;
             let {stam, agi}=target.stats;
             if(StoryEvent.ap>=cost||caster.type!=='player') {
-                // //////console.log('caster.ap>=cost ran')
+        
                 if(caster.type==='player') {
                     StoryEvent.ap-=cost;
                 }
                 StoryEvent.displayText+=`\n\n${name} ${attempt} to strike ${target.name}!`
                 if(hitRoll===1) {
-                    //////console.log('crit fail ran')
+                  
                     const dmg=(str/2)
                     caster.hp=(caster.hp-dmg);
                     StoryEvent.displayText+=`${name} ${miss} spectacularly, injuring themselves for ${dmg} damage..\n`
                     return StoryEvent
                 }
                 if(hitRoll===20) {
-                    //////console.log('crit success ran')
+                    
                     const dmg=str*5;
                     target.hp=target.hp-dmg;
                     StoryEvent.displayText+=`${name} lands a critical strike on ${target.name},\n dealing ${dmg} damage..\n`
                     return StoryEvent;
                 }
                 if(hitRoll+str>=(stam+((agi+2)/2))) {
-                    //////console.log('successful hit ran')
+                   
                     const dmg=(str+roll(4));
                     StoryEvent.displayText+=`\n\n${name} ${hit} ${tName} for ${dmg} damage!`;
                     target.hp-=dmg;
                     if(target.hp<=0) {
-                        ////////console.log('killed it ran')
+                        
                         StoryEvent.displayText+=`\n\n${tName} has fallen, lifeless to the ground...`;
                     }
                 }
                 else {
-                    //////console.log('dodged attack and counter ran')
+                   
                     const dmg=((agi+2)/2);
                     StoryEvent.displayText+=`\n\n${tName} dodges ${pronoun} attack at lightning speed, striking ${name} for ${dmg} damage!`
                     caster.hp-=dmg;
@@ -456,14 +449,14 @@ module.exports={
                 }
                 StoryEvent.displayText+=`\n\n${name} launches their attack ${target.name}'s way!`
                 if(hitRoll===1) {
-                    //////console.log('crit fail')
+            
                     const dmg=((str+4)/4)
                     caster.hp=(caster.hp-dmg);
                     StoryEvent.displayText+=`${name} hits themselves, for ${dmg} damage..\n`
                     return StoryEvent
                 }
                 if(hitRoll===20) {
-                    //////console.log('crit success')
+                 
                     const dmg=(str*2)-2;
                     target.hp=target.hp-dmg;
                     StoryEvent.displayText+=`${name} horrifically stamps ${target.name},\n dealing ${dmg} damage..\n`
@@ -479,7 +472,7 @@ module.exports={
                     }
                 }
                 else {
-                    //////console.log('dodge')
+               
                     const dmg=((agi+2)/2);
                     StoryEvent.displayText+=`\n\n${tName} dodges ${pronoun} attack and strikes back ${name} for ${dmg} damage!`
                     caster.hp-=dmg;
@@ -498,7 +491,7 @@ module.exports={
     HeavyAttack: new ability({name: "Heavy Attack", desc: "An heavy attack with a melee weapon."}, (StoryEvent, caster, target) => {
         const cost=8;
         const apCost=8;
-        //////console.log('AP ', StoryEvent.ap)
+ 
         // if(caster.type=='player') {
         //     StoryEvent.ap-=apCost;
         // }
@@ -509,7 +502,7 @@ module.exports={
         StoryEvent.displayText=`\n\n${name} prepares a haymaker.`
         const hitRoll=roll(20);
         if(caster&&target) {
-            //////console.log('has caster and target', StoryEvent.ap)
+      
             let {str}=caster.stats;
             let {stam, agi}=target.stats;
 
@@ -707,7 +700,7 @@ module.exports={
 
     //     return StoryEvent;
     // }
-    // ////////console.log(target.stats);
+    
     // if(hitRoll+active.stats.str>=(target.stats.stam+((target.stats.agi+2)/2))) {
     //     let damage=active.stats.str+1;
     //     target.hp=target.hp-damage;

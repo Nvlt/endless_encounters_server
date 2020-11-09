@@ -8,7 +8,17 @@ module.exports={
         'Scratch':abilities.QuickAttack,
         'Bite': abilities.HeavyAttack,
         'End Turn':abilities.endTurn,
-        'Wizard Slap':abilities.UnarmedAttack
+        'Wizard Slap':abilities.UnarmedAttack,
+        str:abilities.levelUpStr,
+        dex:abilities.levelUpDex,
+        int:abilities.levelUpInt,
+        stam:abilities.levelUpStam,
+        will:abilities.levelUpWill,
+        agi:abilities.levelUpAgi,
+        cha:abilities.levelUpCha,
+        "Poor Pummel": abilities.HeavyAttack,
+        "Clumsy Clip": abilities.QuickAttack,
+        "Dirty Dink": abilities.UnarmedAttack
     },
         
     jobs: {

@@ -59,10 +59,16 @@ const formatAbilities=(ability_array)=>
     const _abilities = {...abilities,...p.specialAbilities,...specialAbilities}
     let result=[];
     for(const ability of ability_array)
-    {
-        
-        const {name,desc,cost,type} = _abilities[ability]
-        result.push({displayName:ability,name,desc,cost,type});
+    {   
+      if(_abilities[ability])
+      {
+          const {name,desc,cost,type} = _abilities[ability]
+          result.push({displayName:ability,name,desc,cost,type});
+      }
+      else
+      {
+          throw new Error(`Ability Error: ${ability} could not be found. Add it into a special abilities array or something.`)
+      }
     }
     
     return result;
@@ -70,7 +76,7 @@ const formatAbilities=(ability_array)=>
 const deconstructAbilities = (abilityObj)=>
 {
   result = [];
-  //console.log(abilityObj);
+ 
   for(const [key, value] of Object.entries(abilityObj))
   {
     result.push(key);
@@ -79,7 +85,7 @@ const deconstructAbilities = (abilityObj)=>
 }
 const deconstructEntity = (entityObj)=>
 {
-  //console.log("hi",entityObj);
+ 
   if(entityObj)
   {
     entityObj.abilities = deconstructAbilities(entityObj.abilities);
@@ -108,8 +114,9 @@ const deconstructEntity = (entityObj)=>
   "max_mp"INT,
   "current_event" INT,
   "hostility" BOOLEAN); */
-const entityService = {
-  getEntityById:async(db, id)=>
+  module.exports = class entityService {
+    
+  getEntityById = async(db, id)=>
   {
     if(typeof id == 'number')
     {
@@ -125,8 +132,8 @@ const entityService = {
     }
     
     return data.rows[0];
-  },
-  getEntityByIdForEngine:async(db, id)=>
+  }
+  getEntityByIdForEngine = async(db, id)=>
   {
     if(typeof id == 'number')
     {
@@ -143,13 +150,19 @@ const entityService = {
     const newEntity = new entity(data.rows[0]);
     newEntity.serverData = {id:id};
     return newEntity;
-  },
-  saveEntity:async(db,entityObj)=>
+  }
+  registerBlankEntity = async(db,story_id = null,type = 'basic')=>{
+    let newEntity = new entity({type:type});
+    let data =  await db.raw(`INSERT INTO entity DEFAULT VALUES RETURNING "id"`);
+    let id = data.rows[0].id
+    newEntity.serverData = data.rows[0]
+    newEntity.current_event = (story_id)? story_id : -1;
+    data = await this.saveEntity(db,newEntity)
+    return id;
+  }
+  saveEntity = async(db,entityObj)=>
   {
-    //`UPDATE "user" SET "access_token" = '${newToken}' WHERE "username" = '${username}' `
-    //////console.log("mew",entityObj)
-    //console.log('entityObj', entityObj)
-    ////console.log(entityObj,"meewww");
+    
     const _entity = deconstructEntity(entityObj);
     let {type,name,desc,abilities,stats,job,level,speechType,statPoints,exp,max_exp,hp,max_hp,mp,max_mp,current_event,hostility} = _entity;
     job = job.key;
@@ -165,7 +178,8 @@ const entityService = {
       abilityStr= abilityStr.substr(1);
     }
     
-    console.log("mew",entityObj.serverData);
+    
+    
     const data = await db.raw(`
     UPDATE "entity"
     SET 
@@ -188,8 +202,7 @@ const entityService = {
     "hostility" = ${hostility}
     WHERE "id" = ${entityObj.serverData.id}
     RETURNING *;`)
-    //console.log(data.rows[0]);
+    return data;
   }
 }
 
-module.exports = entityService;
