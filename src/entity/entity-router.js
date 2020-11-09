@@ -1,7 +1,7 @@
 const express=require('express');
 const path=require('path');
-const entityService=require('./entity-service');
-
+let entityService=require('./entity-service');
+entityService = new entityService();
 const router=express.Router();
 const jsonBodyParser=express.json();
 

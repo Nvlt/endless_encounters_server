@@ -2,18 +2,29 @@ const express = require('express');
 const path = require('path');
 const UserService = require('./user-service');
 const {v4:uuid} = require('uuid');
-
+const atob = require('atob');
 const userRouter = express.Router();
 const jsonBodyParser = express.json();
-userRouter.route('/story/:id').get(jsonBodyParser, async (req,res,next)=>{
-  const db = req.app.get('db');
-  const {id} = req.params;
-  const data = await UserService.getUserGameDataForEngine(db, id);
-  if(!data)
+userRouter.route('/story/').get(jsonBodyParser, async (req,res,next)=>{
+
+  let auth = req.headers['authorization'];
+  if(auth)
+  {
+    const db = req.app.get('db');
+    auth = auth.split('.');
+    const accessAuth = JSON.parse(atob(auth[1]));
+    console.log(accessAuth);
+    const data = await UserService.getUserGameDataForEngine(db, accessAuth['access_token']);
+    if(!data)
+    {
+      return res.status(400).json({Error:"Denied"})
+    }
+    return res.status(200).json(data);
+  }
+  else
   {
     return res.status(400).json({Error:"Denied"})
   }
-  return res.status(200).json(data);
 
 })
 userRouter
