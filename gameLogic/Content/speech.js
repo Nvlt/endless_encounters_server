@@ -22,7 +22,7 @@ module.exports=class speech {
                 ],
                 dragon: [
                     `Foolish human, challenging me was the last mistake you will ever make.`,
-                    `Ahh, well at least you'll make a good snack.`
+                    `Ahh, well at least you''ll make a good snack.`
                 ],
                 spider: [
                     `Hsss...`,
@@ -79,7 +79,7 @@ module.exports=class speech {
                 ],
                 dragon: [
                     `Foolish human, challenging me was the last mistake you will ever make.`,
-                    `Ahh, well at least you'll make a good snack.`
+                    `Ahh, well at least you''ll make a good snack.`
                 ],
                 spider: [
                     `Hsss...`,
@@ -96,8 +96,8 @@ module.exports=class speech {
                 ],
                 goblin: [
                     'This MY treasure, MINE!',
-                    'You have pretty shiny things?',
-                    'We trade? Want shiny.'
+                    'You have pretty shiny things\\?',
+                    'We trade\\? Want shiny.'
                 ],
                 beetle: [
                     `IT''S SHOWTIME!`,
@@ -105,16 +105,16 @@ module.exports=class speech {
                     `Not so fast, Brawnda. We''re taking attendance today and you''re late...`,
                 ],
                 villager: [
-                    `Oh, a ${this.player.job.name} huh? ${(this.player.job.name=='Mage')? 'Are you gonna do a magic trick?':`It''s good to see folks with such upstanding careers.`}`,
-                    `Oh, a ${this.player.job.name} huh? ${(this.player.job.name=='Mage')? `Don't see many of them around here.`:`Gonna go out and slay the dragon?`}`,
-                    `Oh, a ${this.player.job.name} huh? ${(this.player.job.name=='Mage')? `Keep your filthy magic to yourself.`:`Well piss off ya brute!`}`,
+                    `Oh, a ${this.player.job.name} huh\\? ${(this.player.job.name=='Mage')? 'Are you gonna do a magic trick\\?':`It''s good to see folks with such upstanding careers.`}`,
+                    `Oh, a ${this.player.job.name} huh\\? ${(this.player.job.name=='Mage')? `Don''t see many of them around here.`:`Gonna go out and slay the dragon\\?`}`,
+                    `Oh, a ${this.player.job.name} huh\\? ${(this.player.job.name=='Mage')? `Keep your filthy magic to yourself.`:`Well piss off ya brute!`}`,
                     `Good day to ya.`,
                     `Happy to see ya.`
                 ],
                 drunk: [
                     `hic...hic...`,
                     `I used to be an adventurer like you...`,
-                    'Get me another drink, would ya?'
+                    'Get me another drink, would ya\\?'
                 ],
                 tiff: [
                     `That''s fucking bologna, my dude.`,
@@ -155,14 +155,14 @@ module.exports=class speech {
                     `I'm the ghost with the most babe and your ass is toast`
                 ],
                 villager: [
-                    `Oh, a ${this.player.job.name} huh? ${(this.player.job.name=='Mage')? 'Are you gonna do a magic trick?':`It''s good to see folks with such upstanding careers.`}`,
-                    `Oh, a ${this.player.job.name} huh? ${(this.player.job.name=='Mage')? `Don't see many of them around here.`:`Gonna go out and slay the dragon?`}`,
+                    `Oh, a ${this.player.job.name} huh\\? ${(this.player.job.name=='Mage')? 'Are you gonna do a magic trick\\?':`It''s good to see folks with such upstanding careers.`}`,
+                    `Oh, a ${this.player.job.name} huh\\? ${(this.player.job.name=='Mage')? `Don''t see many of them around here.`:`Gonna go out and slay the dragon\\?`}`,
                     `Good day to ya.`,
                     `Happy to see ya.`
                 ],
                 dragon: [
                     `Oh.. Another one, they just keep coming.\nHow many times must I tell you humans, STAY OUT OF MY ${StoryEvent.name.toUpperCase()}!!`,
-                    `Ahh, well at least you'll make a good snack.`
+                    `Ahh, well at least you''ll make a good snack.`
                 ],
                 spider: [
                     `Hsss...`,
@@ -184,9 +184,9 @@ module.exports=class speech {
                     `YAAHHAHAHARARARARRRRAAA`
                 ],
                 drunk: [
-                    `you...you think you''re better than me?`,
+                    `you...you think you''re better than me\\?`,
                     `Respect me, respect my money...`,
-                    `you feel lucky, punk?`
+                    `you feel lucky, punk\\?`
                 ],
                 tiff: [
                     `Yikes! That was a lil spicy. We might need take things outside...`

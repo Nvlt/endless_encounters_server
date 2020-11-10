@@ -10,7 +10,7 @@ module.exports=class ability {
         this.logic=logic;
 
     }
-    do(event=this.StoryEvent, caster=(event.turn=='player')? event.player:event.entities[0], target=(event.turn=='enemy')? event.player:event.entities[0], data=this) {
+    do(event=this.StoryEvent, caster=(event.turn=='player')? event.player:event.entities[0] || {}, target=(event.turn=='enemy')? event.player:event.entities[0] || {}, data=this) {
         if(event) {
            
             if(this.type == 'offense')
@@ -18,7 +18,7 @@ module.exports=class ability {
                 
                 if(!target)
                 {
-                    event.displayText = '\n\nYou can\'t...\n';
+                    event.displayText = `\n\nYou can''t...\n`;
                     return event;
                 }
                 event.combat = true;

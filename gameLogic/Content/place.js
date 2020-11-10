@@ -24,7 +24,8 @@ module.exports=class place {
             leave:abilities.leave_cave,
             inspect:this.randomChoice('explore'),
             Continue: abilities.tavern, 
-            'Start again': abilities.name_screen
+            'Start again': abilities.name_screen,
+            Leave:abilities.leaveTavern
         }
         
         
@@ -82,7 +83,7 @@ module.exports=class place {
                 cave: {
                     names: ['dark cave', 'glowing mushroom cave', 'cave', 'cave of swallows'],
                     text: ["You enter the", "You quietly sneak into the", "You casually walk into the"],
-                    afterText: [".\nYou look around, amazed at it\'s natural beauty.", ".\nIt is very quiet..\nToo quiet..."],
+                    afterText: [".\nYou look around, amazed at it''s natural beauty.", ".\nIt is very quiet..\nToo quiet..."],
                     choices: {leave: abilities.leave_cave, 'continue deeper': abilities.deep_cave}
                 },
                 deep_cave: {
@@ -94,7 +95,7 @@ module.exports=class place {
                 abandoned_castle: {
                     names: ['castle ruin', 'abandoned wizard tower', 'mystic pillars', 'crystal castle'],
                     text: ["You observe the", "You happen upon a", "You casually walk into the"],
-                    afterText: [".\nYou look around, amazed at it's construction", ".\nIt is very quiet..\nToo quiet...", '.\nYou cannot begin to understand the skill it took to create it.'],
+                    afterText: [".\nYou look around, amazed at it''s construction", ".\nIt is very quiet..\nToo quiet...", '.\nYou cannot begin to understand the skill it took to create it.'],
                     choices: {explore:abilities.explore}
                 },
                 afterlife: {
@@ -107,7 +108,7 @@ module.exports=class place {
                     names: ['the tavern.', 'Broken Spoon Tavern.', 'Meowing Mug.', 'Penuches.',],
                     text: ["You awake at"],
                     afterText: ['\n\nYou feel refreshed.', `You feel a little hungover, but nothing an advil can''t cure`],
-                    choices: {leave:abilities.leaveTavern}
+                    choices: {Leave:abilities.leaveTavern}
                 }
                 /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
                 /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE

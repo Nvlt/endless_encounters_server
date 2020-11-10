@@ -35,8 +35,8 @@ module.exports = class storyEvent
         }
         if(this.type == 'explore')
         {
-            this.lastTavern = undefined;
-            this.lastTown = undefined;
+            this.lastTavern = '';
+            this.lastTown = '';
         }
         
       
