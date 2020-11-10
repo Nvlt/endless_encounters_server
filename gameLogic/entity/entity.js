@@ -83,6 +83,7 @@ module.exports = class entity
             this.type = type || job.type || "basic";
             this.current_event = current_event || job.birth_event// || new storyEvent(null,'town');
             this.intro = intro || false;
+            this.dataType = 'entity';
              
         }
     }

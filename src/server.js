@@ -10,7 +10,11 @@ const db = knex({
 });
 
 app.set('db', db);
+app.get('/', function (req, res) {
+  res.send('Hello, world!')
+})
 
 app.listen(PORT, () => {
   console.log('Server started');
 });
+module.exports = app;

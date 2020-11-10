@@ -1,15 +1,15 @@
-const { expect } = require('chai');
-const knex = require('knex');
+const chai = require('chai');
 const supertest = require('supertest');
-const StoryService = require('../src/story/story-service');
-const app = require('../src/app');
+const app = require('../src/server')
 
-describe('StoryService object', () => {
-    it('', () => {
-
+describe('Testing /api/story/:id', () => {
+    it(`Response when id is valid: the dataType key of the returned object should be 'StoryEvent' `, async() => {
+        let response = await supertest(app).get('/api/story/34');
+        return chai.expect(response.body.dataType).to.equal('StoryEvent');
     })
-
-    it('', () => {
+    it(`Response when id is invalid should be an object with an error message`, async() => {
+        let response = await supertest(app).get('/api/story/-1');
+        return chai.expect(response.status).to.equal(400) && chai.expect(response.body.Error).to.equal('Denied');
         
     })
 })

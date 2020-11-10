@@ -12,8 +12,18 @@ router.route('/:id').get(jsonBodyParser, async (req, res, next) => {
       const db= req.app.get('db');
       const {id} = req.params;
       const data = await storyService.getStoryByIDForEngine(db,id);
+      if(data)
+      {
+            if(data.Error)
+            {
+                  return res.status(400).json(data);
+            }
+            else
+            {
+                  return res.status(200).json(data);
+            }
+      }
       
-      res.json(data);
 
   });
 

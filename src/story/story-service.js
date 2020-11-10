@@ -135,25 +135,32 @@ module.exports = class storyService{
     getStoryByIDForEngine = async(db,id)=>{
         let data = await db.raw(`SELECT * FROM "story" WHERE "id" = '${id}'`);
         data = data.rows[0];
-        data.player = await entityService.getEntityByIdForEngine(db,data.player)
-        let entityArray = [];
-        if(data.entities)
+        if(data)
         {
-            for(const entity of data.entities)
+            data.player = await entityService.getEntityByIdForEngine(db,data.player)
+            let entityArray = [];
+            if(data.entities)
             {
-                entityArray.push(await entityService.getEntityByIdForEngine(db,entity));
-            }
+                for(const entity of data.entities)
+                {
+                    entityArray.push(await entityService.getEntityByIdForEngine(db,entity));
+                }
 
+            }
+            
+            data.entities = entityArray;
+            data.choices = formatAbilitiesForEngine(data.choices);
+            let tmText = data.displayText;
+            data.displayText = null;
+            const newStory = new storyEvent(data);
+            newStory.displayText = tmText;
+            newStory.serverData = {id:id};
+            return newStory;
         }
-        
-        data.entities = entityArray;
-        data.choices = formatAbilitiesForEngine(data.choices);
-        let tmText = data.displayText;
-        data.displayText = null;
-        const newStory = new storyEvent(data);
-        newStory.displayText = tmText;
-        newStory.serverData = {id:id};
-        return newStory;
+        else
+        {
+            return {Error:'Denied'};
+        }
     }
     createNewStory = async(db)=>
     {

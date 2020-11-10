@@ -12,18 +12,36 @@ userRouter.route('/story/').get(jsonBodyParser, async (req,res,next)=>{
   {
     const db = req.app.get('db');
     auth = auth.split('.');
-    const accessAuth = JSON.parse(atob(auth[1]));
-    console.log(accessAuth);
-    const data = await UserService.getUserGameDataForEngine(db, accessAuth['access_token']);
-    if(!data)
+    if(auth[1])
     {
-      return res.status(400).json({Error:"Denied"})
+      const accessAuth = JSON.parse(atob(auth[1]));
+      console.log(accessAuth);
+      const data = await UserService.getUserGameDataForEngine(db, accessAuth['access_token']);
+      if(data)
+      {
+        if(data.error)
+        {
+          return res.status(400).json({error:"Denied"})
+        }
+        return res.status(200).json(data);
+        
+      }
+      else
+      {
+        return res.status(400).json({error:"Denied"})
+      }
+      
     }
-    return res.status(200).json(data);
+    else
+    {
+      return res.status(400).json({error:"Denied"})
+    }
+    
+    
   }
   else
   {
-    return res.status(400).json({Error:"Denied"})
+    return res.status(400).json({error:"Denied"})
   }
 
 })

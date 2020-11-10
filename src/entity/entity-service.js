@@ -147,6 +147,10 @@ const deconstructEntity = (entityObj)=>
       data.rows[0].job = formatJob(data.rows[0].job);
       
     }
+    else
+    {
+      return {Error:'Denied'};
+    }
     const newEntity = new entity(data.rows[0]);
     newEntity.serverData = {id:id};
     return newEntity;

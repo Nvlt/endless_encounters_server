@@ -12,7 +12,19 @@ router.route('/:id').get(jsonBodyParser, async (req, res, next) => {
         return res.status(400).json({Error: 'Not found.'})
     }
     const data=await entityService.getEntityByIdForEngine(db, id);
-    res.status(200).json(data);
+    if(data)
+    {
+        if(data.Error)
+        {
+            return res.status(400).json(data)
+        }
+        else
+        {
+            res.status(200).json(data);
+        }
+
+    }
+    
 
 });
 
