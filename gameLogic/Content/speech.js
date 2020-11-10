@@ -43,12 +43,12 @@ module.exports=class speech {
                 drunk: [
                     `momma...just killed a...`,
                     `take me home, COUNTRY ROADS!!`,
-                    "We''re no strangers to love..."
+                    `We''re no strangers to love...`
                 ],
                 goblin: [
-                    'WAHOO! Now me take shiny',
-                    'Your shiny mine now',
-                    'You no even have good stuff!'
+                    `WAHOO! Now me take shiny`,
+                    `Your shiny mine now`,
+                    `You no even have good stuff`
                 ],
                 tiff: [
                     `RIP :--/`
@@ -58,12 +58,6 @@ module.exports=class speech {
                     `I will make my new helm from your bones.`,
                     `This outcome was obvious.`
                 ],
-                /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-                /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-                /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-                /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-                /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-                /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
             };
             this.generalQuote={
                 /*
@@ -95,9 +89,9 @@ module.exports=class speech {
                     `*screech*`,
                 ],
                 goblin: [
-                    'This MY treasure, MINE!',
-                    'You have pretty shiny things\\?',
-                    'We trade\\? Want shiny.'
+                    `This MY treasure, MINE!`,
+                    `You have pretty shiny things\\?`,
+                    `We trade\\? Want shiny.`
                 ],
                 beetle: [
                     `IT''S SHOWTIME!`,
@@ -114,27 +108,18 @@ module.exports=class speech {
                 drunk: [
                     `hic...hic...`,
                     `I used to be an adventurer like you...`,
-                    'Get me another drink, would ya\\?'
+                    `Get me another drink, would ya\\?`
                 ],
                 tiff: [
                     `That''s fucking bologna, my dude.`,
-                    `brb :--)`,
+                    `brb, I just gotta grab something to eat`,
                     `Sorry I'm late...`
                 ],
                 orc: [
                     `Lok tar Ogar.`,
-                    `Zug Zug`,
-                    `nothing but mutton to eat`
+                    `Prepare ve mat`,
+                    `Someday jiak liwo drepa lat. Olk today`
                 ],
-
-
-
-                /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-                /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-                /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-                /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-                /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-
             };
             this.hostileQuote={
                 /*
@@ -152,7 +137,7 @@ module.exports=class speech {
                 ],
                 beetle: [
                     `Let''s turn on the juice and see what shakes loose`,
-                    `I'm the ghost with the most babe and your ass is toast`
+                    `I''m the ghost with the most babe and your ass is toast`
                 ],
                 villager: [
                     `Oh, a ${this.player.job.name} huh\\? ${(this.player.job.name=='Mage')? 'Are you gonna do a magic trick\\?':`It''s good to see folks with such upstanding careers.`}`,
@@ -196,13 +181,6 @@ module.exports=class speech {
                     `Looks like meat is back on the menu!`,
                     `FOR THE HORDE`
                 ],
-                /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-                /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-                /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-                /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-                /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-                /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-
             };
         }
         else {
