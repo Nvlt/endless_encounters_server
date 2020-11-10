@@ -12,7 +12,8 @@ router
     .route('/:id')
     .get(jsonBodyParser, async (req, res, next) => {
         const db=req.app.get('db');
-        const id=req.params;
+        const id=req.params.id;
+        console.log(req.params)
         const data=await storyService.getStoryByIDForEngine(db, id);
         res.json(data);
 
