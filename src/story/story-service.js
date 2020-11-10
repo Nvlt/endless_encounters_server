@@ -37,7 +37,8 @@ const formatAbilitiesForEngine=(ability_array) => {
     let p=new PLACE(sto);
     let _abilities={...abilities, ...p.specialAbilities, ...specialAbilities}
     let result={};
-    for(const ability of ability_array) {
+    console.log(ability_array)
+    for(const ability in ability_array) {
         result[ability]=_abilities[ability];
     }
 
