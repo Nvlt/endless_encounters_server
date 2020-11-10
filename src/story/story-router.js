@@ -13,7 +13,7 @@ router
     .get(jsonBodyParser, async (req, res, next) => {
         const db=req.app.get('db');
         const {id}=req.params;
-        console.log(req.params)
+        console.log(req.params, req.params.id, id)
         const data=await storyService.getStoryByIDForEngine(db, id);
         res.json(data);
 
