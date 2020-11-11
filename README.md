@@ -39,14 +39,14 @@ The POST command on '/auth' accepts a username and password.
 Successful POST's return a `200 OK` response and assign a jwt-token. c
 
 ### '/api/entity'
-**non-authenticated GET**
+**non-authenticated GET**  
 The '/api/entity' endpoint takes in an id which represents a character/npc/player in the database. The server will pull down the data representing that character and run it through our entity class to add on additional non-dynamic game data, then it will respond with the resulting data.
 ```json
     "type": 1,
      "name": "player",
      "desc": "a strong cat",
-     "abilities": {"Fire Ball", "Flee"},
-     "stats": `{1, 2, 3, 4, 5, 6, 7}`,
+     "abilities": {"Fire Ball"``,`` "Flee"},
+     "stats": ```{1, 2, 3, 4, 5, 6, 7}```,
      "job": "Mage",
      "level": 50,
      "speechType": "basic",
@@ -62,7 +62,7 @@ The '/api/entity' endpoint takes in an id which represents a character/npc/playe
 ```
 
 ### '/api/story'
-**non-authenticated GET**
+**non-authenticated GET**  
 *Story events account for all instances in the game, everything from the text based start screen, to the level up and combat scenarios are story events.*  
 The 'api/story' endpoint takes in an id which represents a 'StoryEvent' in the database. The server will pull down the data representing that story event and run it through our StoryEvent class to add on additional non-dynamic game data, then it will respond with the resulting data.
 ```json
