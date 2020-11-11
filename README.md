@@ -15,8 +15,8 @@ Endless Encounters is a text-based RPG ("Role Playing Game") developed by EE. On
 ## API Endpoints:  
 
 
-### '/user'
-The '/user' endpoint is designed to create new user account and collect a Token for a registered user.  
+### '/api/user'
+The '/api/user' endpoint is designed to create new user account and collect a Token for a registered user.  
 The POST command on '/user' accepts a  name, username, and password.  
 ```json
 {
@@ -27,8 +27,8 @@ The POST command on '/user' accepts a  name, username, and password.
 ```
 Successful POST's return a `200 OK` response and assign a user_id.  
 
-### '/auth'
-The '/auth' endpoint validates user login allows user access via an auth token.  
+### '/api/auth'
+The '/api/auth' endpoint validates user login allows user access via an auth token.  
 The POST command on '/auth' accepts a username and password.  
 ```json
 {
@@ -38,14 +38,14 @@ The POST command on '/auth' accepts a username and password.
 ```
 Successful POST's return a `200 OK` response and assign a jwt-token. c
 
-### '/entity'
-The '/entity' endpoint receives an object from the database containing the 7 abilities, the type, name, description, stats, level, speechType, hostility, and job. The entity object is used with the story object to create a full encounter.  
+### '/api/entity'
+The '/api/entity' endpoint takes in an id which represents a character/npc/player in the database. The server will pull down the data representing that character and run it through our entity class to add on additional non-dynamic game data, then it will respond with the resulting data.
 ```json
     "type": 1,
      "name": "player",
      "desc": "a strong cat",
-     "abilities": {Fire Ball, Flee},
-     "stats": {1, 2, 3, 4, 5, 6, 7},
+     "abilities": {"Fire Ball", "Flee"},
+     "stats": {"1", "2", "3", "4", "5", "6", "7"},
      "job": "Mage",
      "level": 50,
      "speechType": "basic",
@@ -60,8 +60,9 @@ The '/entity' endpoint receives an object from the database containing the 7 abi
      "hostility": false
 ```
 
-### '/story'
-The '/story' endpoint recieves an object from the database that pieces together the text based encounter. By tying together the entity object, a setting, combat, and the players' stats, the user will then recieve a randomly generated encounter.  
+### '/api/story'
+Story events account for all instances in the game, everything from the text based start screen, to the level up and combat scenarios are story events.  
+The 'api/story' endpoint takes in an id which represents a 'StoryEvent' in the database. The server will pull down the data representing that story event and run it through our StoryEvent class to add on additional non-dynamic game data, then it will respond with the resulting data.
 ```json
      "type": "Erthgurd",
      "displayText": "Welcome to the town of",
@@ -71,11 +72,11 @@ The '/story' endpoint recieves an object from the database that pieces together 
      "lastTavern": "Penuches",
      "lastTown": "Cat Kingdom",
      "desc": "lots and lots of hairballs",
-     "choices": {explore, tavern},
+     "choices": {"explore", "tavern"},
      "player": 1,
      "ap": 10,
      "turn": "player",
-     "entities": {2}
+     "entities": {"2"}
 ```
 
 ## Technologies Used:  
