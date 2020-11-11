@@ -39,13 +39,14 @@ The POST command on '/auth' accepts a username and password.
 Successful POST's return a `200 OK` response and assign a jwt-token. c
 
 ### '/api/entity'
+**non-authenticated GET**
 The '/api/entity' endpoint takes in an id which represents a character/npc/player in the database. The server will pull down the data representing that character and run it through our entity class to add on additional non-dynamic game data, then it will respond with the resulting data.
 ```json
     "type": 1,
      "name": "player",
      "desc": "a strong cat",
      "abilities": {"Fire Ball", "Flee"},
-     "stats": {"1", "2", "3", "4", "5", "6", "7"},
+     "stats": `{1, 2, 3, 4, 5, 6, 7}`,
      "job": "Mage",
      "level": 50,
      "speechType": "basic",
@@ -61,7 +62,8 @@ The '/api/entity' endpoint takes in an id which represents a character/npc/playe
 ```
 
 ### '/api/story'
-Story events account for all instances in the game, everything from the text based start screen, to the level up and combat scenarios are story events.  
+**non-authenticated GET**
+*Story events account for all instances in the game, everything from the text based start screen, to the level up and combat scenarios are story events.*  
 The 'api/story' endpoint takes in an id which represents a 'StoryEvent' in the database. The server will pull down the data representing that story event and run it through our StoryEvent class to add on additional non-dynamic game data, then it will respond with the resulting data.
 ```json
      "type": "Erthgurd",
@@ -72,12 +74,14 @@ The 'api/story' endpoint takes in an id which represents a 'StoryEvent' in the d
      "lastTavern": "Penuches",
      "lastTown": "Cat Kingdom",
      "desc": "lots and lots of hairballs",
-     "choices": {"explore", "tavern"},
+     "choices": {"explore"`,` "tavern"},
      "player": 1,
      "ap": 10,
      "turn": "player",
      "entities": {"2"}
-```
+```  
+### '/api/user/story'
+The 'api/user/story' end point is an authenticated GET endpoint. The server grabs all of the currently logged in user's saved game data from the database, runs it through our class library to add additional non dynamic game data, and responds with it.
 
 ## Technologies Used:  
 FrontEnd: JavaScript, React, CSS 3, HTML 5, and Jest.  
