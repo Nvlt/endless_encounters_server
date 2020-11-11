@@ -55,7 +55,7 @@ The '/api/story/:id' endpoint takes in an id that represents a 'StoryEvent' in t
 <summary>Show `code`</summary>
 <p>
       
-```json{style="background: pink;"}
+```json
 {
     "serverData": {
         "id": "36"
@@ -450,7 +450,8 @@ The '/api/story/:id' endpoint takes in an id that represents a 'StoryEvent' in t
 }
 ``` 
 </p>
-</details>  
+</details> 
+ 
 ### '/api/user/story'
 **autheticated GET**  
 The '/api/user/story' endpoint is an authenticated GET endpoint. The server grabs all of the currently logged in user's saved game data from the database, runs it through our class library to add additional non-dynamic game data, and responds with it.  
