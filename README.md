@@ -52,17 +52,7 @@ The '/api/entity/:id' endpoint takes in an id that represents a character/npc/pl
 *Story events account for all instances in the game, everything from the text-based start screen, to the level up and combat scenarios are story events.*  
 The '/api/story/:id' endpoint takes in an id that represents a 'StoryEvent' in the database. The server will pull down the data representing that story event and run it through our StoryEvent class to add on additional non-dynamic game data, then it will respond with the resulting data.
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
-```json{r}
-<style>
-pre {
-  white-space: pre !important;
-  overflow-y: scroll !important;
-  max-height: 50vh !important;
-}
-</style>
+```json{style="background: pink;"}
 {
     "serverData": {
         "id": "36"
