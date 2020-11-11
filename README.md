@@ -45,8 +45,8 @@ The '/api/entity' endpoint takes in an id which represents a character/npc/playe
     "type": 1,
      "name": "player",
      "desc": "a strong cat",
-     "abilities": {"Fire Ball"``,`` "Flee"},
-     "stats": ```{1, 2, 3, 4, 5, 6, 7}```,
+     "abilities": {"Fire Ball"\, "Flee"},
+     "stats": {\1, \2, \3, \4, \5, \6, \7}\,
      "job": "Mage",
      "level": 50,
      "speechType": "basic",
@@ -74,11 +74,11 @@ The 'api/story' endpoint takes in an id which represents a 'StoryEvent' in the d
      "lastTavern": "Penuches",
      "lastTown": "Cat Kingdom",
      "desc": "lots and lots of hairballs",
-     "choices": {"explore"`,` "tavern"},
+     "choices": {"explore"\, "tavern"},
      "player": 1,
      "ap": 10,
      "turn": "player",
-     "entities": {"2"}
+     "entities": {\2}
 ```  
 ### '/api/user/story'
 The 'api/user/story' end point is an authenticated GET endpoint. The server grabs all of the currently logged in user's saved game data from the database, runs it through our class library to add additional non dynamic game data, and responds with it.
