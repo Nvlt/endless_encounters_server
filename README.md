@@ -38,33 +38,171 @@ The POST command on '/auth' accepts a username and password.
 ```
 Successful POST's return a `200 OK` response and assign a jwt-token. c
 
-### '/api/entity'
+### '/api/entity/:id'
 **non-authenticated GET**  
-The '/api/entity' endpoint takes in an id that represents a character/npc/player in the database. The server will pull down the data representing that character and run it through our entity class to add on additional non-dynamic game data, then it will respond with the resulting data.
+The '/api/entity/:id' endpoint takes in an id that represents a character/npc/player in the database. The server will pull down the data representing that character and run it through our entity class to add on additional non-dynamic game data, then it will respond with the resulting data.
 ```json
-    "type": 1,
-     "name": "player",
-     "desc": "a strong cat",
-     "abilities": {"Fire Ball" "Flee"},
-     "stats": {"1" "2" "3" "4" "5" "6" "7"},
-     "job": "Mage",
-     "level": 50,
-     "speechType": "basic",
-     "statPoints": 0,
-     "exp": 0,
-     "max_exp": 1000,
-     "hp": 50,
-     "max_hp": 150,
-     "mp": 300,
-     "max_mp": 300,
-     "current_event": 1,
-     "hostility": false
+{
+    "serverData": {
+        "id": "1067"
+    },
+    "name": "Tiff",
+    "desc": "a queer cutie",
+    "job": {
+        "name": "an enemy",
+        "desc": "an enemy",
+        "key": "Test_Enemy",
+        "base_stats": {
+            "str": 2,
+            "dex": 12,
+            "int": 20,
+            "stam": 5,
+            "will": 200,
+            "agi": 13,
+            "cha": 10
+        },
+        "abilities": {
+            "Fire Ball": {
+                "name": "Fire Ball",
+                "desc": "Cast a Fire Ball.",
+                "cost": 5,
+                "type": "offense"
+            },
+            "Attack": {
+                "name": "Attack",
+                "desc": "A basic attack.",
+                "cost": 0,
+                "type": "offense"
+            },
+            "Heavy": {
+                "name": "Heavy Attack",
+                "desc": "An heavy attack with a melee weapon.",
+                "cost": 0,
+                "type": "harmless"
+            },
+            "Quick": {
+                "name": "Quick Attack",
+                "desc": "An quick attack.",
+                "cost": 0,
+                "type": "harmless"
+            },
+            "Punch": {
+                "name": "Unarmed Attack",
+                "desc": "An attack with a bare fist.",
+                "cost": 0,
+                "type": "harmless"
+            }
+        }
+    },
+    "base_hp": 200,
+    "level": 100,
+    "speechType": "tiff",
+    "pronoun": "They",
+    "upgradeAbilities": {
+        "str": {
+            "name": "Level Up Str.",
+            "desc": "Level up your str stat.",
+            "cost": 0,
+            "type": "harmless"
+        },
+        "dex": {
+            "name": "Level Up Dex.",
+            "desc": "Level up your Dex stat.",
+            "cost": 0,
+            "type": "harmless"
+        },
+        "int": {
+            "name": "Level Up Int.",
+            "desc": "Level up your Int stat.",
+            "cost": 0,
+            "type": "harmless"
+        },
+        "stam": {
+            "name": "Level Up stam.",
+            "desc": "Level up your stam stat.",
+            "cost": 0,
+            "type": "harmless"
+        },
+        "will": {
+            "name": "Level Up Will.",
+            "desc": "Level up your will stat.",
+            "cost": 0,
+            "type": "harmless"
+        },
+        "agi": {
+            "name": "Level Up agi.",
+            "desc": "Level up your agi stat.",
+            "cost": 0,
+            "type": "harmless"
+        },
+        "cha": {
+            "name": "Level Up cha.",
+            "desc": "Level up your cha stat.",
+            "cost": 0,
+            "type": "harmless"
+        }
+    },
+    "statPoints": 0,
+    "abilities": {
+        "Fire Ball": {
+            "name": "Fire Ball",
+            "desc": "Cast a Fire Ball.",
+            "cost": 5,
+            "type": "offense"
+        },
+        "Attack": {
+            "name": "Attack",
+            "desc": "A basic attack.",
+            "cost": 0,
+            "type": "offense"
+        },
+        "Heavy": {
+            "name": "Heavy Attack",
+            "desc": "An heavy attack with a melee weapon.",
+            "cost": 0,
+            "type": "harmless"
+        },
+        "Quick": {
+            "name": "Quick Attack",
+            "desc": "An quick attack.",
+            "cost": 0,
+            "type": "harmless"
+        },
+        "Punch": {
+            "name": "Unarmed Attack",
+            "desc": "An attack with a bare fist.",
+            "cost": 0,
+            "type": "harmless"
+        }
+    },
+    "stats": {
+        "str": 5000000,
+        "dex": 12,
+        "int": 20,
+        "stam": 5,
+        "will": 200,
+        "agi": 13,
+        "cha": 10
+    },
+    "gold": 0,
+    "exp": 0,
+    "max_exp": 10100,
+    "max_hp": 10000,
+    "hp": 10000,
+    "max_mp": 2100,
+    "mp": 2100,
+    "hostility": false,
+    "type": "basic",
+    "current_event": 36,
+    "intro": false,
+    "dataType": "entity"
+}
 ```
 
-### '/api/story'
+### '/api/story/:id'
 **non-authenticated GET**  
 *Story events account for all instances in the game, everything from the text-based start screen, to the level up and combat scenarios are story events.*  
-The '/api/story' endpoint takes in an id that represents a 'StoryEvent' in the database. The server will pull down the data representing that story event and run it through our StoryEvent class to add on additional non-dynamic game data, then it will respond with the resulting data.
+The '/api/story/:id' endpoint takes in an id that represents a 'StoryEvent' in the database. The server will pull down the data representing that story event and run it through our StoryEvent class to add on additional non-dynamic game data, then it will respond with the resulting data.
 ```json
      "type": "Erthgurd",
      "displayText": "Welcome to the town of",
