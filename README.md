@@ -8,7 +8,7 @@ By: [Alexis Felts](https://github.com/Nvlt "Alexis Felts"),
 [Tiffany Summerford](https://github.com/breakfastatiffs "Tiffany Summerford")  
 
 ## About Endless Encounters:  
-Endless Encounters is a text-based RPG ("Role Playing Game") developed by EE. Once you're in, you can explore a whole new world in search of ravenous enemies to duel swords with or visit the tavern to discuss rumors. Endless Encounters includes randomly generated events and actions/abilities to respond with.  
+Endless Encounters is a text-based RPG ("Role-Playing Game") developed by EE. Once you're in, you can explore a whole new world in search of ravenous enemies to duel swords with or visit the tavern to discuss rumors. Endless Encounters includes randomly generated events and actions/abilities to respond with.  
 
 ** API's base URL: 'postgresql://dunder_mifflin@localhost/endless-encounters' **  
 
@@ -40,13 +40,13 @@ Successful POST's return a `200 OK` response and assign a jwt-token. c
 
 ### '/api/entity'
 **non-authenticated GET**  
-The '/api/entity' endpoint takes in an id which represents a character/npc/player in the database. The server will pull down the data representing that character and run it through our entity class to add on additional non-dynamic game data, then it will respond with the resulting data.
+The '/api/entity' endpoint takes in an id that represents a character/npc/player in the database. The server will pull down the data representing that character and run it through our entity class to add on additional non-dynamic game data, then it will respond with the resulting data.
 ```json
     "type": 1,
      "name": "player",
      "desc": "a strong cat",
-     "abilities": {"Fire Ball"\, "Flee"},
-     "stats": {\`1, \`2, \`3, \`4, \`5, \`6, \`7}\,
+     "abilities": {"Fire Ball" "Flee"},
+     "stats": {"1" "2" "3" "4" "5" "6" "7"},
      "job": "Mage",
      "level": 50,
      "speechType": "basic",
@@ -63,8 +63,8 @@ The '/api/entity' endpoint takes in an id which represents a character/npc/playe
 
 ### '/api/story'
 **non-authenticated GET**  
-*Story events account for all instances in the game, everything from the text based start screen, to the level up and combat scenarios are story events.*  
-The 'api/story' endpoint takes in an id which represents a 'StoryEvent' in the database. The server will pull down the data representing that story event and run it through our StoryEvent class to add on additional non-dynamic game data, then it will respond with the resulting data.
+*Story events account for all instances in the game, everything from the text-based start screen, to the level up and combat scenarios are story events.*  
+The '/api/story' endpoint takes in an id that represents a 'StoryEvent' in the database. The server will pull down the data representing that story event and run it through our StoryEvent class to add on additional non-dynamic game data, then it will respond with the resulting data.
 ```json
      "type": "Erthgurd",
      "displayText": "Welcome to the town of",
@@ -74,14 +74,23 @@ The 'api/story' endpoint takes in an id which represents a 'StoryEvent' in the d
      "lastTavern": "Penuches",
      "lastTown": "Cat Kingdom",
      "desc": "lots and lots of hairballs",
-     "choices": {"explore"\`, "tavern"},
+     "choices": {"explore" "tavern"},
      "player": 1,
      "ap": 10,
      "turn": "player",
-     "entities": {\`2}
+     "entities": {"2"}
 ```  
 ### '/api/user/story'
-The 'api/user/story' end point is an authenticated GET endpoint. The server grabs all of the currently logged in user's saved game data from the database, runs it through our class library to add additional non dynamic game data, and responds with it.
+**autheticated GET**  
+The '/api/user/story' endpoint is an authenticated GET endpoint. The server grabs all of the currently logged in user's saved game data from the database, runs it through our class library to add additional non-dynamic game data, and responds with it.
+
+### '/api/choice'
+**authenticated POST**  
+The '/api/choice' endpoint is an authenticated POST endpoint.
+The server grabs all of the currently logged in user's saved game data from the database, preps it for use in the game class library we wrote. After successfully constructing a StoryEvent with that data on the server-side, the server then runs the makeChoice() method of the StoryEvent class, passing in the choice that was sent in the body of the post. This method returns new and progressed story event data, which then gets formatted and saved to the database before the server responds with that same data so that it can be displayed to the client.
+```json
+     "body": {"choice": "explore"}
+````
 
 ## Technologies Used:  
 FrontEnd: JavaScript, React, CSS 3, HTML 5, and Jest.  
