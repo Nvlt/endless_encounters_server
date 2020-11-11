@@ -51,7 +51,9 @@ The '/api/entity/:id' endpoint takes in an id that represents a character/npc/pl
 **non-authenticated GET**  
 *Story events account for all instances in the game, everything from the text-based start screen, to the level up and combat scenarios are story events.*  
 The '/api/story/:id' endpoint takes in an id that represents a 'StoryEvent' in the database. The server will pull down the data representing that story event and run it through our StoryEvent class to add on additional non-dynamic game data, then it will respond with the resulting data.
-
+<details>
+<p>code snippet</p>
+  
 ```json{style="background: pink;"}
 {
     "serverData": {
@@ -445,7 +447,8 @@ The '/api/story/:id' endpoint takes in an id that represents a 'StoryEvent' in t
     ],
     "dataType": "StoryEvent"
 }
-```  
+``` 
+</details>  
 ### '/api/user/story'
 **autheticated GET**  
 The '/api/user/story' endpoint is an authenticated GET endpoint. The server grabs all of the currently logged in user's saved game data from the database, runs it through our class library to add additional non-dynamic game data, and responds with it.  
