@@ -368,7 +368,7 @@ module.exports = class storyEvent
             }
             else
             {
-                this.displayText = "You flail around and accomplish nothing."
+                this.displayText = "You flail around and accomplish nothing.\n\nHint: Choices are case sensitive."
             }
             return new storyEvent(this);
         }
