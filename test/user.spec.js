@@ -23,7 +23,7 @@ describe('/api/user/ endpoint tests.', () => {
     it('On valid registration we should get an object with our username', async() => {
         await populateTestDB();
         let test = await supertest(app).post('/api/user/').send({"email":"meow@meow.com","password":"password","username":"moo"});
-        console.log(test.status);
+        
         return chai.expect(test.status).to.equal(201) && chai.expect(test.body.username).to.equal('moo');
     })
     it('On invalid registration we should get an object containing an error message.', async() => {
