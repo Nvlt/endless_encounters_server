@@ -30,6 +30,7 @@ module.exports={
                 quick: abilities.QuickAttack,
                 punch: abilities.UnarmedAttack,
                 whirlwind: abilities.Whirlwind,
+                'fire ball': abilities['Fire Ball']
                 
 
             }
