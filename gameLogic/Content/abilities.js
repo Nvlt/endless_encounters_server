@@ -409,8 +409,8 @@ module.exports={
     }),
     UnarmedAttack: new ability({name: "Unarmed Attack", desc: "An attack with a bare fist.", cost: 2, type: 'offense'}, (StoryEvent, caster, target) => {
         
-        let {You,hit,them,miss, prepare} = verbs(caster)
-        StoryEvent.displayText = `${You} ${prepare} to attack.\n`
+        let {You,hit,them,miss,swing, your} = verbs(caster)
+        StoryEvent.displayText = `${You} ${swing} ${your} fist.\n`
         if(roll(20) + caster.stats.agi >= roll(20) + target.stats.agi)
         {
             let crit = (roll(20) == 20)? (caster.stats.dex + caster.stats.int)/2 : 0;
@@ -470,7 +470,7 @@ module.exports={
     }),
     QuickAttack: new ability({name: "Quick Attack", desc: "An quick attack.", cost: 1, type: 'offense'}, (StoryEvent, caster, target) => {
         
-        let {You,them,miss, prepare} = verbs(caster)
+        let {You,them,miss,jab, prepare} = verbs(caster)
         StoryEvent.displayText = `${You} ${prepare} to attack.\n`
         if(roll(20) + caster.stats.agi >= roll(20) + target.stats.agi)
         {

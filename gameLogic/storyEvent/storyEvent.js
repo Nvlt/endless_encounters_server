@@ -162,7 +162,7 @@ module.exports = class storyEvent
     }
     interact()
     {
-        const roll = this.roll(20);
+        
         
         if(this.entities[0])
         {
@@ -198,6 +198,7 @@ module.exports = class storyEvent
                         this.displayText += (this.player.hp > 0)? `\n\nIt is now your turn.` : `\n\nYou are dead...`;
                         this.ap = this.max_ap;
                         this.turn = 'player';
+                        this.interact();
                     }
                     else
                     {
@@ -328,7 +329,7 @@ module.exports = class storyEvent
     }
     makeChoice(key)
     {
-        console.log(this.choices)
+        
         this.pData = new place(this);
         
         if(this.type == 'name_screen')
