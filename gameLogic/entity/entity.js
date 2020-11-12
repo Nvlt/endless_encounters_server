@@ -1,6 +1,6 @@
-const {jobs} = require('../Content/jobs');
-const cAbilities = require('../Content/abilities');
-const { threadId } = require('worker_threads');
+
+let cAbilities = require('../Content/abilities');
+
 module.exports = class entity
 {
     
@@ -9,6 +9,13 @@ module.exports = class entity
         const {jobs} = require('../Content/jobs');
         if(data)
         {
+            for(const [key,val] of Object.entries(data))
+            {
+                if(val === 'undefined')
+                {
+                    data[key] = undefined;
+                }
+            }
             let {name, desc, job, speechType,statPoints, level, intro, abilities, exp, hp, max_hp,mp, current_event, type, stats, gold, hostility,serverData} = data;
             this.serverData = serverData;
             //inventory = [new item(),new item(),new item()];
@@ -44,6 +51,7 @@ module.exports = class entity
             this.level = level || 0;
             this.speechType = speechType || 'general'
             this.pronoun = 'They';
+            cAbilities = require('../Content/abilities');
             this.upgradeAbilities = {
                 str:cAbilities.levelUpStr,
                 dex:cAbilities.levelUpDex,
@@ -73,9 +81,9 @@ module.exports = class entity
           
                 this.max_hp = this.base_hp + (this.stats.stam * 10);
             }
-            this.hp = (hp != undefined)? hp : this.max_hp;
+            this.hp = (hp != undefined)? Math.round(hp) : this.max_hp;
             this.max_mp = 100 + this.stats.will * 10;
-            this.mp = (mp != undefined)? mp : this.max_mp;
+            this.mp = (mp != undefined)? Math.round(mp) : this.max_mp;
 
             //this.inventory = inventory || job.base_inventory || [];
             //this.gear=gear || { }

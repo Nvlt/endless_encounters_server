@@ -1,4 +1,4 @@
-const ability=require('../abiliy/ability');
+const ability=require('../ability/ability');
 const roll=function (max) {
     max=max+1;
     min=1;
@@ -6,10 +6,15 @@ const roll=function (max) {
     max=Math.floor(max);
     return Math.floor(Math.random()*(max-min)+min); //The maximum is exclusive and the minimum is inclusive
 }
-const verbs=(caster) => {
-    const you={dodge: 'dodge', attack: 'attack',attempt:'attempt', strike: 'strike', prepare: 'prepare', ready: 'ready', their: 'their', have: 'have', them: 'them', miss: 'miss', hit: 'hit', channel: 'channel', hurl: 'hurl'}
-    const enemy={dodge: 'dodges', attack: 'attacks',attempt:'attempts', strike: 'strikes', prepare: 'prepares', ready: 'readys', their: 'your', have: 'has', them: 'you', miss: 'misses', hit: 'hits', channel: 'channel', hurl: 'hurls'}
-    if(caster.type=='player') {
+const verbs=(caster,swap = false) => {
+    
+    const you={You:'You',you:'you',jab:'jab',spin:'spin',yourself:'yourself',your:'your', fail:'fail', charge:'charge',swing:'swing',dodge: 'dodge', attack: 'attack',attempt:'attempt', strike: 'strike', prepare: 'prepare', ready: 'ready', their: 'their', have: 'have', them: 'them', miss: 'miss', hit: 'hit', channel: 'channel', hurl: 'hurl'}
+    if(!caster)
+    {
+        return you;
+    }
+    const enemy={You:caster.name,you:'they',spin:'spins', jab:'jabs',yourself:'themselves',fail:'fails',charge:'charges',your:'their',swing:'swings',dodge: 'dodges', attack: 'attacks',attempt:'attempts', strike: 'strikes', prepare: 'prepares', ready: 'readys', their: 'your', have: 'has', them: 'you', miss: 'misses', hit: 'hits', channel: 'channel', hurl: 'hurls'}
+    if(caster.type=='player' && swap == false) {
         return you;
     }
     else {
@@ -198,6 +203,7 @@ module.exports={
         StoryEvent.type='tavern';
         StoryEvent.player.hp=StoryEvent.player.max_hp;
         StoryEvent.player.mp=StoryEvent.player.max_mp;
+        StoryEvent.ap = StoryEvent.max_ap;
         StoryEvent.name=StoryEvent.lastTavern;
         StoryEvent.displayText=undefined;
         StoryEvent.entities=undefined;
@@ -279,7 +285,7 @@ module.exports={
         StoryEvent.player.hp-=100;
         return StoryEvent;
     }),
-    heal: new ability({name: 'heal', desc: 'Heal yourself for int * 5 hp.'}, (StoryEvent) => {
+    heal: new ability({name: 'heal', desc: 'Heal yourself for int * 5 hp.', cost:5}, (StoryEvent) => {
         let player=StoryEvent.player
         let {int}=player.stats;
         let healedHp=5*int;
@@ -309,7 +315,9 @@ module.exports={
 
 
         StoryEvent.combat=true;
-        let {channel, hurl, have, dodge}=verbs(caster);
+        let {channel,have, hurl,dodge}=verbs(caster);
+        
+
         let name=(StoryEvent.turn=='player')? 'You':caster.name;
         let tName=(StoryEvent.turn=='enemy')? 'You':target.name;
         let pronoun=(StoryEvent.turn=='player')? 'Your':'their';
@@ -359,6 +367,8 @@ module.exports={
             StoryEvent.ap=StoryEvent.max_ap;
             StoryEvent.displayText=`${caster.name} ends their turn.`
             StoryEvent.turn=(StoryEvent.turn=='player')? 'enemy':'player';
+            StoryEvent.combat = true;
+            StoryEvent.fromCombat = true;
         }
         else {
             StoryEvent.displayText='You are alone...'
@@ -366,408 +376,168 @@ module.exports={
         }
         return StoryEvent;
     }),
-    Attack: new ability({name: "Attack", desc: "A basic attack.", type: 'offense'}, (StoryEvent, caster, target) => {
-        const cost=5;
-        const apCost=5;
+    Attack: new ability({name: "Attack", desc: "A basic attack.", cost: 2, type: 'offense'}, (StoryEvent, caster, target) => {
        
-        StoryEvent.combat=true;
-        let name=(caster.type=='player')? 'You':caster.name;
-        let {prepare, attempt, hit, miss}=verbs(caster)
-        let tName=target.name;
-        let pronoun=(StoryEvent.turn=='player')? 'Your':'their';
-        StoryEvent.displayText=`\n\n${name} ${prepare} to attack.\n`
-        const hitRoll=roll(20);
-        if(caster&&target) {
-
-            let {str}=caster.stats;
-            let {stam, agi}=target.stats;
-            if(StoryEvent.ap>=cost||caster.type!=='player') {
         
-                if(caster.type==='player') {
-                    StoryEvent.ap-=cost;
-                }
-                StoryEvent.displayText+=`\n\n${name} ${attempt} to strike ${target.name}!`
-                if(hitRoll===1) {
-                  
-                    const dmg=(str/2)
-                    caster.hp=(caster.hp-dmg);
-                    StoryEvent.displayText+=`${name} ${miss} spectacularly, injuring themselves for ${dmg} damage..\n`
-                    return StoryEvent
-                }
-                if(hitRoll===20) {
-                    
-                    const dmg=str*5;
-                    target.hp=target.hp-dmg;
-                    StoryEvent.displayText+=`${name} lands a critical strike on ${target.name},\n dealing ${dmg} damage..\n`
-                    return StoryEvent;
-                }
-                if(hitRoll+str>=(stam+((agi+2)/2))) {
-                   
-                    const dmg=(str+roll(4));
-                    StoryEvent.displayText+=`\n\n${name} ${hit} ${tName} for ${dmg} damage!`;
-                    target.hp-=dmg;
-                    if(target.hp<=0) {
-                        
-                        StoryEvent.displayText+=`\n\n${tName} has fallen, lifeless to the ground...`;
-                    }
-                }
-                else {
-                   
-                    const dmg=((agi+2)/2);
-                    StoryEvent.displayText+=`\n\n${tName} dodges ${pronoun} attack at lightning speed, striking ${name} for ${dmg} damage!`
-                    caster.hp-=dmg;
-                }
+        let {You,hit,them,miss, prepare} = verbs(caster)
+        StoryEvent.displayText = `${You} ${prepare} to attack.\n`
+        if(roll(20) + caster.stats.agi >= roll(20) + target.stats.agi)
+        {
+            let crit = (roll(20) == 20)? (caster.stats.dex + caster.stats.int)/2 : 0;
+            let dmg = (caster.stats.str + roll(20)) * (1 + crit);
+            target.hp -= dmg;
+            StoryEvent.displayText += `\n${You} ${hit} ${them} for ${dmg} damage.\n`
+            if(crit)
+            {
+                StoryEvent.displayText += `\nA critical strike!\n\n${crit} times damage!\n`
             }
-            else {
-                StoryEvent.displayText+='You do not have enough AP for that'
-            }
-
         }
-        else {
-            StoryEvent.displayText+='But no one is around...'
+        else
+        {
+            let e = verbs(target);
+            let crit = (roll(20) == 20)? (target.stats.dex + target.stats.int)/2 : 0;
+            let dmg = (target.stats.str + roll(20)) * (1 + crit);
+            StoryEvent.displayText += `\n${You} ${miss}!\n`
+            caster.hp -= dmg;
+            StoryEvent.displayText += `\n${e.You} ${e.strike} ${e.them} back for ${dmg} damage!\n`
+            if(crit)
+            {
+                StoryEvent.displayText += `\nA critical strike!\n\n${crit} times damage!\n`
+            }
         }
         return StoryEvent;
     }),
-    UnarmedAttack: new ability({name: "Unarmed Attack", desc: "An attack with a bare fist."}, (StoryEvent, caster, target) => {
-        const cost=3;
-        const apCost=3;
-        // if(caster.type=='player') {
-        //     StoryEvent.ap-=apCost;
-        // }
-        StoryEvent.combat=true;
-        let name=caster.name;
-        let tName=target.name;
-        let pronoun=(StoryEvent.turn=='player')? 'Your':'their';
-        StoryEvent.displayText=`\n\n${name} winds up for an attack on ${target.name}.`
-        const hitRoll=roll(20);
-        if(caster&&target) {
-            let {str}=caster.stats;
-            let {stam, agi}=target.stats;
-            if(StoryEvent.ap>=cost||caster.type!=='player') {
-                if(caster.type==='player') {
-                    StoryEvent.ap-=cost;
-                }
-                StoryEvent.displayText+=`\n\n${name} launches their attack ${target.name}''s way!`
-                if(hitRoll===1) {
-            
-                    const dmg=((str+4)/4)
-                    caster.hp=(caster.hp-dmg);
-                    StoryEvent.displayText+=`${name} hits themselves, for ${dmg} damage..\n`
-                    return StoryEvent
-                }
-                if(hitRoll===20) {
-                 
-                    const dmg=(str*2)-2;
-                    target.hp=target.hp-dmg;
-                    StoryEvent.displayText+=`${name} horrifically stamps ${target.name},\n dealing ${dmg} damage..\n`
-                    return StoryEvent;
-                }
-                if(hitRoll+str>=(stam+((agi+2)/2))) {
-
-                    const dmg=(str+roll(4));
-                    StoryEvent.displayText+=`\n\n${name} hits ${tName} for ${dmg} damage!`;
-                    target.hp-=dmg;
-                    if(target.hp<=0) {
-                        StoryEvent.displayText+=`\n\n${tName} has fallen, bloodied and bruised to the ground...`;
-                    }
-                }
-                else {
-               
-                    const dmg=((agi+2)/2);
-                    StoryEvent.displayText+=`\n\n${tName} dodges ${pronoun} attack and strikes back ${name} for ${dmg} damage!`
-                    caster.hp-=dmg;
-                }
+    UnarmedAttack: new ability({name: "Unarmed Attack", desc: "An attack with a bare fist.", cost: 2, type: 'offense'}, (StoryEvent, caster, target) => {
+        
+        let {You,hit,them,miss, prepare} = verbs(caster)
+        StoryEvent.displayText = `${You} ${prepare} to attack.\n`
+        if(roll(20) + caster.stats.agi >= roll(20) + target.stats.agi)
+        {
+            let crit = (roll(20) == 20)? (caster.stats.dex + caster.stats.int)/2 : 0;
+            let dmg = (caster.stats.str + roll(20)) * (1 + crit);
+            target.hp -= dmg;
+            StoryEvent.displayText += `\n${You} ${hit} ${them} for ${dmg} damage.\n`
+            if(crit)
+            {
+                StoryEvent.displayText += `\nA critical strike!\n\n${crit} times damage!\n`
             }
-            else {
-                StoryEvent.displayText+='You do not have enough AP for that'
-            }
-
         }
-        else {
-            StoryEvent.displayText+='But no one is around...'
+        else
+        {
+            let e = verbs(target);
+            let crit = (roll(20) == 20)? (target.stats.dex + target.stats.int)/2 : 0;
+            let dmg = (target.stats.str + roll(20)) * (1 + crit);
+            StoryEvent.displayText += `\n${You} ${miss}!\n`
+            caster.hp -= dmg;
+            StoryEvent.displayText += `\n${e.You} ${e.strike} ${e.them} back for ${dmg} damage!\n`
+            if(crit)
+            {
+                StoryEvent.displayText += `\nA critical strike!\n\n${crit} times damage!\n`
+            }
+        }
+        return StoryEvent;
+        
+    }),
+    HeavyAttack: new ability({name: "Heavy Attack", desc: "An heavy attack with a melee weapon.", cost: 5, type: 'offense'}, (StoryEvent, caster, target) => {
+        
+        let {you,hit,them,miss,swing,your,You,yourself} = verbs(caster)
+        StoryEvent.displayText = `${You} ${swing} ${your} fist as hard as ${you} can.\n`
+        if(roll(20) + caster.stats.agi >= roll(20) + target.stats.agi)
+        {
+            let crit = (roll(40) == 40)? (caster.stats.dex + caster.stats.int)/2 : 0;
+            let dmg = (caster.stats.str + roll(40)) * (1 + crit);
+            target.hp -= dmg;
+            StoryEvent.displayText += `\n${You} ${hit} ${them} for ${dmg} damage.\n`
+            if(crit)
+            {
+                StoryEvent.displayText += `\nA critical strike!\n\n${crit} times damage!\n`
+            }
+        }
+        else
+        {
+            let e = verbs(target);
+            let crit = (roll(20) >= 15)? (target.stats.dex + target.stats.int)/2 : 0;
+            let dmg = (target.stats.str + roll(20)) * (1 + crit);
+            StoryEvent.displayText += `\n${you} miss and leave ${yourself} wide open!\n`
+            caster.hp -= dmg;
+            StoryEvent.displayText += `\n${e.You} ${e.strike} ${e.them} back for ${dmg} damage!\n`
+            if(crit)
+            {
+                StoryEvent.displayText += `\nA critical strike!\n\n${crit} times damage!\n`
+            }
         }
         return StoryEvent;
     }),
-    HeavyAttack: new ability({name: "Heavy Attack", desc: "An heavy attack with a melee weapon."}, (StoryEvent, caster, target) => {
-        const cost=8;
-        const apCost=8;
- 
-        // if(caster.type=='player') {
-        //     StoryEvent.ap-=apCost;
-        // }
-        StoryEvent.combat=true;
-        let name=caster.name;
-        let tName=target.name;
-        let pronoun=(StoryEvent.turn=='player')? 'Your':'their';
-        StoryEvent.displayText=`\n\n${name} prepares a haymaker.`
-        const hitRoll=roll(20);
-        if(caster&&target) {
-      
-            let {str}=caster.stats;
-            let {stam, agi}=target.stats;
-
-            if(StoryEvent.ap>=cost||caster.type!=='player') {
-                if(caster.type==='player') {
-                    StoryEvent.ap-=cost;
-                }
-                StoryEvent.ap-=apCost;
-                StoryEvent.displayText+=`\n\n${name} hastens toward ${target.name}.`
-                if(hitRoll===1) {
-                    const dmg=(str+5)
-                    caster.hp=(caster.hp-dmg);
-                    StoryEvent.displayText+=`${name} bungles ${pronoun} attack, taking ${dmg} damage..\n`
-                    return StoryEvent
-                }
-                if(hitRoll===20) {
-                    const dmg=str*10;
-                    target.hp=target.hp-dmg;
-                    StoryEvent.displayText+=`${name} lands a shattering strike on ${target.name},\n dealing ${dmg} damage..\n`
-                    return StoryEvent;
-                }
-                if(hitRoll+str>=(stam+((agi+2)/2))) {
-                    const dmg=(str*roll(4));
-                    StoryEvent.displayText+=`\n\n${name} hits ${tName} for ${dmg} damage!`;
-                    target.hp-=dmg;
-                    if(target.hp<=0) {
-                        StoryEvent.displayText+=`\n\n${tName} is no more, they lie bleeding on the ground.`;
-                    }
-                }
-                else {
-                    const dmg=((agi+2)/2);
-                    StoryEvent.displayText+=`\n\n${tName} had dodged the attack, dealing ${dmg} damage!`
-                    caster.hp-=dmg;
-                }
+    QuickAttack: new ability({name: "Quick Attack", desc: "An quick attack.", cost: 1, type: 'offense'}, (StoryEvent, caster, target) => {
+        
+        let {You,them,miss, prepare} = verbs(caster)
+        StoryEvent.displayText = `${You} ${prepare} to attack.\n`
+        if(roll(20) + caster.stats.agi >= roll(20) + target.stats.agi)
+        {
+            let crit = (roll(20) == 20)? 2 : 0;
+            let dmg = (caster.stats.str + roll(5)) * (1 + crit);
+            target.hp -= dmg;
+            StoryEvent.displayText += `\n${You} quickly ${jab} ${them} in the face for ${dmg} damage.\n`
+            if(crit)
+            {
+                StoryEvent.displayText += `\nA critical strike!\n\n${crit} times damage!\n`
             }
-            else {
-                StoryEvent.displayText+='You do not have enough AP for that'
-            }
-
         }
-        else {
-            StoryEvent.displayText+='But no one is around...'
+        else
+        {
+            let e = verbs(target);
+            let crit = (roll(20) == 20)? (target.stats.dex + target.stats.int)/2 : 0;
+            let dmg = (target.stats.str + roll(20)) * (1 + crit);
+            StoryEvent.displayText += `\n${You} ${miss}!\n`
+            caster.hp -= dmg;
+            StoryEvent.displayText += `\n${e.You} ${e.strike} ${e.them} back for ${dmg} damage!\n`
+            if(crit)
+            {
+                StoryEvent.displayText += `\nA critical strike!\n\n${crit} times damage!\n`
+            }
         }
         return StoryEvent;
     }),
-    QuickAttack: new ability({name: "Quick Attack", desc: "An quick attack."}, (StoryEvent, caster, target) => {
-        const cost=2;
-        const apCost=2;
-
-        StoryEvent.combat=true;
-        let name=caster.name;
-        let tName=target.name;
-        let pronoun=(StoryEvent.turn=='player')? 'Your':'their';
-        StoryEvent.displayText=`\n\n${name} rushes toward ${tName}.`
-        let hitRoll=roll(20);
-        if(caster&&target) {
-            let {str, dex}=caster.stats;
-            let {stam, agi}=target.stats;
-            if(StoryEvent.ap>=cost||caster.type!=='player') {
-                if(caster.type=='player') {
-                    StoryEvent.ap-=apCost;
-                }
-                StoryEvent.displayText+=`\n\n${name} spring toward ${target.name}.`
-                if(hitRoll===1) {//critical failure
-                    const dmg=(str+dex)
-                    caster.hp=(caster.hp-dmg);
-                    StoryEvent.displayText+=`${name} stumble, hurting ${pronoun} pride for 100, and themselves for ${dmg}.\n`
-                    return StoryEvent
-                }
-                if(hitRoll===20) {//critical success
-                    const dmg=(dex*((str+2)/2))+10;
-                    target.hp=target.hp-dmg;
-                    StoryEvent.displayText+=`${name} artfully flips over ${target.name},\n dealing ${dmg} damage.\n That was awesome.\n`
-                    return StoryEvent;
-                }
-                if(hitRoll+dex>=(stam+((agi+2)/2))) {//successful attack
-                    const dmg=((dex+str)*roll(6));
-                    StoryEvent.displayText+=`\n\n${name} hits ${tName} for ${dmg} damage!`;
-                    target.hp-=dmg;
-                    if(target.hp<=0) {
-                        StoryEvent.displayText+=`\n\n${tName} is greeted by death, as ${name} emerges the victor.`;
-                    }
-                }
-                else {
-                    const dmg=((agi+2)/2);//missed attack
-                    StoryEvent.displayText+=`\n\n${tName} is too quick, hammering ${name} for ${dmg} damage!`
-                    caster.hp-=dmg;
-                }
+    Whirlwind: new ability({name: 'Whirlwind', desc: 'Spin furiously, attacking multiple times' , cost: 5, type: 'offense'}, (StoryEvent, caster, target) => {
+        
+       
+        let {You,hit,them,miss,spin, prepare} = verbs(caster)
+        StoryEvent.displayText = `${You} ${spin} around like a maniac!\n`
+        if(roll(20) + caster.stats.agi >= roll(20) + target.stats.agi)
+        {
+            let critical = 0;
+            let totalDamage = 0;
+            let attacks = roll(10)
+            for(let i = 0; i<attacks; i++)
+            {
+                let crit = (roll(20) == 20)? (caster.stats.dex + caster.stats.int)/2 : 0;
+                let dmg = (caster.stats.str + roll(20)) * (1 + crit);
+                totalDamage += dmg;
+                critical += crit;
             }
-            else {
-                StoryEvent.displayText+='You do not have enough AP for that'
+
+            target.hp -= totalDamage;
+            StoryEvent.displayText += `\n${You} ${hit} ${them} ${attacks} times!\nDoing ${totalDamage} damage..\n`
+            if(critical)
+            {
+                StoryEvent.displayText += `\nA critical strike!\n\n${critical} times damage!\n`
             }
         }
-        else {
-            StoryEvent.displayText+='But no one is around...'
-        }
-        return StoryEvent;
-    }),
-    Whirlwind: new ability({name: 'Whirlwind', desc: 'Spin furiously, attacking multiple times'}, (StoryEvent, caster, target) => {
-        const cost=6;
-        const name=caster.name;
-        const tName=target.name;
-        const pronoun=(StoryEvent.turn=='player')? 'Your':'their';
-        StoryEvent.displayText=`\n\n${name} rushes toward ${tName}.`
-
-
-        if(caster&&target) {
-
-            let {str, dex}=caster.stats;
-            let {stam, agi}=target.stats;
-            if(StoryEvent.ap>=cost||caster.type!=='player') {
-                if(caster.type==='player') {
-                    StoryEvent.ap-=cost;
-                }
-                for(let i=0;i<cost;i++) {
-                    let hitRoll=roll(20);
-                    if(hitRoll===1) {
-                        const dmg=(str+dex)/6;
-                        caster.hp=caster.hp-dmg;
-                        StoryEvent.displayText+=`\n${name} sprains an ankle, taking ${dmg} damage`;
-                        return StoryEvent;
-                    }
-                    if(hitRoll===20) {
-                        const dmg=(dex*((str+2)/6))+1;
-                        target.hp-=dmg;
-                        StoryEvent.displayText+=`\n${tName} slices cleanly, critically striking for ${dmg} damage!`;
-                        return StoryEvent;
-                    }
-                    if(hitRoll+dex>=(stam+((agi+2)/2))) {
-                        const dmg=((dex/4+str)*roll(6)/2);
-                        StoryEvent.displayText+=`\n${name} hits ${tName} for ${dmg} damage!`;
-                        target.hp-=dmg;
-                        if(target.hp<=0) {
-                            StoryEvent.displayText+=`\n${tName} is greeted by death, as ${name} emerges the victor.`;
-                            return StoryEvent;
-                        }
-                    }
-                    else {
-                        const dmg=((agi+2)/2);//missed attack
-                        StoryEvent.displayText+=`\n${tName} is too quick, hammering ${name} for ${dmg} damage!`
-                        caster.hp-=dmg;
-                    }
-                }
+        else
+        {
+            let e = verbs(target);
+            let crit = (roll(20) == 20)? (target.stats.dex + target.stats.int)/2 : 0;
+            let dmg = (target.stats.str + roll(20)) * (1 + crit);
+            StoryEvent.displayText += `\n${You} ${miss}!\n`
+            caster.hp -= dmg;
+            StoryEvent.displayText += `\n${e.You} ${e.strike} ${e.them} back for ${dmg} damage!\n`
+            if(crit)
+            {
+                StoryEvent.displayText += `\nA critical strike!\n\n${crit} times damage!\n`
             }
-            else {
-                StoryEvent.displayText+=`\n\nYou do not have enough AP to cast that!`
-            }
-        }
-        else {
-            StoryEvent.displayText+=`\n\nThere is nobody around...`
         }
         return StoryEvent;
 
     }),
-    /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-    /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-    /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-    /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-    /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-
-
-
-//Make sure all content comes before this.
-    
 
 }
-
-
-
-
-
-{        // if(StoryEvent.activeEntity==='player') {
-    //     StoryEvent.displayText="You wind up for an attack.\n"
-    //     active=StoryEvent.player;
-    //     target=StoryEvent.entities[0]
-    //     if(!target) {
-    //         StoryEvent.displayText+='But there is no one there.'
-    //         return StoryEvent;
-    //     }
-
-    // }
-    // let hitRoll=roll(20);
-
-    // if(hitRoll===1) {
-    //     let damage=(target.stats.str/2)
-    //     active.hp=(active.hp-damage);
-    //     StoryEvent.displayText+=`Your attack backfires. You take ${damage} damage..\n`
-
-    //     return StoryEvent
-    // }
-    // if(hitRoll===20) {
-    //     let damage=target.hp;
-    //     target.hp=target.hp-damage;
-    //     StoryEvent.displayText+=`Oh my god ${target.name} just exploded into a red mist of blood and viscera... \nyou did ${damage} damage..\n`
-
-    //     return StoryEvent;
-    // }
-    
-    // if(hitRoll+active.stats.str>=(target.stats.stam+((target.stats.agi+2)/2))) {
-    //     let damage=active.stats.str+1;
-    //     target.hp=target.hp-damage;
-    //     StoryEvent.displayText+=`You strike ${target.name} with your fist doing ${damage} damage\n`
-
-    //     return StoryEvent
-    // }
-    // StoryEvent.displayText="Ha, you missed!\n";
-}
-
-//const Attack = new ability()
-//if event.activeEntity===player active=Player, target=event.entities[0]
-
-//Attack.name='Attack'
-//else char=event.entities[0], target=player
-//Attack.desc = "You attempt to attack your target in a way that defies explanation."
-
-
-//Attack.logic=()=>{ const hitRoll=roll20+Str
-
-//if roll20 === 1 return char.hp -target.Str/2 res.desc="You failed so badly you're lucky you're still alive"
-
-
-//if roll20 === 20 && active===player return target.hp===0 res.desc="Oh my god they just exploded into a red mist of blood and viscera..."
-
-//if hitRoll+(activ.stats.str) >= target.Stam+(Agi/2) Attack.Hit=true
-//if Attack.Hit return Attack.damage=char.Str+1
-//return new Event()}
-//
-
-
-//const unarmedAttack = new ability()
-//unarmedAttack.desc = "You attempt to attck your target."
-//unarmedAttack.logic=()=>{
-//const hitRoll=roll20+Str
-//if hitRoll >= target.Stam+(Agi/2) unarmedAttack.Hit=true
-//if unarmedAttack.Hit return unarmedAttack.damage=char.Str+1
-//return new Event()}
-//
-
-//{attack:new Ability(()=>{the stuff, return event})}
-
-
-//const heavyMeleeAttack = new ability()
-//heavyMeleeAttack.desc = "You attempt to attack your target."
-//heavyMeleeAttack.function=()=>{ const hitRoll=roll20+Str
-//if hitRoll >= target.Stam+(Agi/2) heavyMeleeAttack.Hit=true
-//if heavyMeleeAttack.Hit return heavyMeleeAttack.damage=char.Str*2
-//return new Event()}
-//
-
-
-//const lightMeleeAttack = new ability()
-//lightMeleeAttack.desc = "You attempt to attack your target."
-//lightMeleeAttack.function=()=>{ const hitRoll=roll20+Str
-// if roll20 === 1 return char.hp -target.Str/2 res.desc="You failed so badly you're lucky you're still alive"
-//if hitRoll >= target.Stam+(Agi/2) return lightMeleeAttack.Hit=true
-//else return lightMeleeAttack.Hit=false
-//if lightMeleeAttack.Hit return lightMeleeAttack.damage=char.Str
-//else return char.hp- target.str / 5
-//return new Event()}
-//
-
-
-
-///entity.isPlayerturn bool
-///isNPC turn==
-
-
-//activeEntity=player || NPC

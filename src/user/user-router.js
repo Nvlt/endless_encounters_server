@@ -15,7 +15,7 @@ userRouter.route('/story/').get(jsonBodyParser, async (req,res,next)=>{
     if(auth[1])
     {
       const accessAuth = JSON.parse(atob(auth[1]));
-      console.log(accessAuth);
+      
       const data = await UserService.getUserGameDataForEngine(db, accessAuth['access_token']);
       if(data)
       {

@@ -113,7 +113,7 @@ module.exports=class speech {
                 tiff: [
                     `That''s fucking bologna, my dude.`,
                     `brb, I just gotta grab something to eat`,
-                    `Sorry I'm late...`
+                    `Sorry I''m late...`
                 ],
                 orc: [
                     `Lok tar Ogar.`,

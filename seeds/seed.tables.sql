@@ -2,13 +2,12 @@ TRUNCATE
   "user"
   RESTART IDENTITY CASCADE;
 
-INSERT INTO "user" ("id", "username", "password", "email","entity","access_token")
+INSERT INTO "user" ( "username", "password", "email","entity","access_token")
 VALUES
   (
-    1,
     'admin',
     --"password" at 12
-    '$2a$12$AiFoZ50xR4kpUbYRcHyM9e1ii5J62Y6V2nasWvhO2KPD3MBNaRDam',
+    '$2a$12$wTknGEe.NxdMZO.EK17gXOv8B1k7kXWjqhsZLUi36jeiwxbCDACJ6',
     'dunder@endless.com',
     1,
     '252f1ad8-da83-4366-9a8b-84259bcb1894'

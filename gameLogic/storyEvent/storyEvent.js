@@ -4,15 +4,21 @@ const speech = require('../Content/speech');
 const sArray = require('../utility/sArray');
 const characters = require('../Content/characters');
 const place =  require('../Content/place');
-const abli = require('../Content/abilities');
+let abli = require('../Content/abilities');
 
 module.exports = class storyEvent
 {
     constructor(data = {})
     {
+        for(const [key,val] of Object.entries(data))
+        {
+            if(val === 'undefined')
+            {
+                data[key] = undefined;
+            }
+        }
+        let {type,pData,ap, displayText,lastTown,lastTavern,fromCombat, combat, turn, name, desc, choices, player, entities, activeEntity, serverData} = data;
         
-        const {type,pData,ap, displayText,lastTown,lastTavern,fromCombat, combat, turn, name, desc, choices, player, entities, activeEntity, serverData} = data;
-       
         this.pData = pData || new place(this);
         this.serverData=serverData;
         this.type = type || 'start_screen';
@@ -61,17 +67,15 @@ module.exports = class storyEvent
         }
         else
         {
+            
             this.choices = (this.player.statPoints > 0) ? this.player.upgradeAbilities : {...this.pData.descData[this.type].choices,...this.player.abilities};
         }
         if(this.combat)
         {
-            this.choices = this.player.abilities;
+            abli = require('../Content/abilities');
+            this.choices = {...this.player.abilities,'End Turn':abli.endTurn, flee:abli.flee};
         }
-        if(this.player.hp <= 0)
-        {
-            this.choices = this.pData.descData[this.type].choices;
-            this.combat = false;
-        }
+        
         
     
         this.max_ap = 10;
@@ -92,14 +96,36 @@ module.exports = class storyEvent
         {
             if(this.fromCombat || this.player.hp <= 0)
             {
+                this.interact();
                 this.fromCombat = false;
             }
             else
             {
                 this.interact();
+                this.turn = 'player';
+                if(this.combat)
+                {
+                    abli = require('../Content/abilities');
+                    this.choices = {...this.player.abilities,'End Turn':abli.endTurn, flee:abli.flee};
+                    if(this.ap <= 0)
+                    {
+                        this.ap = 0;
+                        this.choices = {'End Turn':abli.endTurn}
+                    }
+                    if(!this.entities.length && this.player.statPoints)
+                    {
+                        this.choices = this.player.upgradeAbilities;
+                    }
+                }
             }
             
-             
+            if(this.player.hp <= 0)
+            {
+                this.player.hp = 0;
+                this.type = 'afterlife';
+                this.choices = this.pData.descData[this.type].choices;
+                this.combat = false;
+            }
             this.displayPlayerStatus(this);
             this.displayChoices(); 
           
@@ -124,8 +150,15 @@ module.exports = class storyEvent
         {
             display.push(key);
         }
-
-        this.displayText += `\nChoices: ${display.sJoin(', ','or ')}`
+        if(this.type == 'name_screen' || this.type == 'desc_screen')
+        {
+            this.displayText += `Enter some text..`
+        }
+        else
+        {
+            this.displayText += `\nChoices: ${display.sJoin(', ','or ')}`
+        }
+        
     }
     interact()
     {
@@ -133,7 +166,7 @@ module.exports = class storyEvent
         
         if(this.entities[0])
         {
-            if(this.entities[0].hostility && !this.entities[0].intro)
+            if(this.entities[0].hostility && !this.entities[0].intro && !this.fromCombat)
             {
                 this.entities[0].intro = true;
                 this.displayText += `\n\nYou come across ${this.entities[0].desc}.`;
@@ -141,7 +174,7 @@ module.exports = class storyEvent
                 this.combat = true;
                 this.choices = this.player.abilities;
             }
-            else if(!this.entities[0].hostility && !this.entities[0].intro)
+            else if(!this.entities[0].hostility && !this.entities[0].intro && !this.fromCombat)
             {
                 this.entities[0].intro = true;
                 this.displayText += `\n\nYou come across ${this.entities[0].desc}.`;
@@ -156,6 +189,7 @@ module.exports = class storyEvent
                 }
                 if(this.combat && this.turn == 'enemy')
                 {
+                    this.ap = this.max_ap;
                     const skill = this.randomAbility(this.entities[0].abilities)
                     if(skill != -1)
                     {
@@ -182,8 +216,9 @@ module.exports = class storyEvent
             if(this.player.hp > 0)
             {
                 this.displayText += '\nNo one is around.'
+                this.ap = this.max_ap;
                 this.combat = false;
-                this.choices = (this.player.statPoints > 0) ? this.player.upgradeAbilities : {...this.pData.descData[this.type].choices,...this.player.abilities};
+                this.choices = (this.player.statPoints > 0) ? this.player.upgradeAbilities : {...this.pData.descData[this.type].choices};
             }
             else
             {
@@ -211,6 +246,7 @@ module.exports = class storyEvent
         }
         if(player.hp <= 0)
         {
+            player.hp = 0;
             StoryEvent.displayText += `\n\nYou died...\n\nGame Over.`;
             StoryEvent.type = 'afterlife';
             StoryEvent.choices = this.pData.descData[this.type].choices;
@@ -292,6 +328,7 @@ module.exports = class storyEvent
     }
     makeChoice(key)
     {
+        console.log(this.choices)
         this.pData = new place(this);
         
         if(this.type == 'name_screen')
@@ -324,7 +361,14 @@ module.exports = class storyEvent
         }
         else
         {
-            this.displayText = "You flail around and accomplish nothing."
+            if(this.player.hp <= 0)
+            {
+                this.displayText = "You lash about into the void, but alas... your fit will do you no good here.\n\n Make a choice..."
+            }
+            else
+            {
+                this.displayText = "You flail around and accomplish nothing."
+            }
             return new storyEvent(this);
         }
         

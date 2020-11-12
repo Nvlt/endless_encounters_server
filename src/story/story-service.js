@@ -198,7 +198,7 @@ module.exports = class storyService{
         }
         
         
-        console.log('Attempt to save story')
+        //console.log('Attempt to save story')
         const data = await db.raw(`
         UPDATE "story"
         SET 

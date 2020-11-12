@@ -8,14 +8,8 @@ module.exports=class place {
         this.choices={
             explore: [
                 abilities.cave,
-                abilities.cave,
-                abilities.cave,
                 abilities.abandoned_castle,
                 abilities.town
-            ],
-            cave: [
-                abilities.leave_cave,
-                abilities.deep_cave
             ]
         }
         this.specialAbilities = {
@@ -25,7 +19,8 @@ module.exports=class place {
             inspect:this.randomChoice('explore'),
             Continue: abilities.tavern, 
             'Start again': abilities.name_screen,
-            Leave:abilities.leaveTavern
+            Leave:abilities.leaveTavern,
+            'End Turn':abilities.endTurn
         }
         
         
@@ -85,8 +80,8 @@ module.exports=class place {
                 deep_cave: {
                     names: [`cave`],
                     text: [`You explore deeper into the`, `You quietly continue to explore the`, `You casually walk deeper into the`],
-                    afterText: [`\nIt\'s getting darker.`, `\nYou hear drips on the near by rocks..`, `\nIt is very quiet..\nToo quiet...`],
-                    choices: {'continue deeper': abilities.deep_cave, leave: this.randomChoice('cave')}
+                    afterText: [`\nIt''s getting darker.`, `\nYou hear drips on the near by rocks..`, `\nIt is very quiet..\nToo quiet...`],
+                    choices: {'continue deeper': abilities.deep_cave, leave:abilities.leave_cave}
                 },
                 abandoned_castle: {
                     names: [`castle ruin`, `abandoned wizard tower`, `mystic pillars`, `crystal castle`],

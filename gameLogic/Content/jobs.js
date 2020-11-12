@@ -7,7 +7,6 @@ module.exports={
         Punch: abilities.UnarmedAttack,
         'Scratch':abilities.QuickAttack,
         'Bite': abilities.HeavyAttack,
-        'End Turn':abilities.endTurn,
         'Wizard Slap':abilities.UnarmedAttack,
         str:abilities.levelUpStr,
         dex:abilities.levelUpDex,
@@ -30,23 +29,16 @@ module.exports={
                 Quick: abilities.QuickAttack,
                 Punch: abilities.UnarmedAttack,
                 Whirlwind: abilities.Whirlwind,
-                'End Turn': abilities.endTurn,
-                flee: abilities.flee
+                
 
             }
         }),
         WereCat: new job({
                 key:'WereCat',name: "Cat", desc: "a person that fluctuates into a fetchingly flocculant feline", base_stats: {str: 15, stam: 14, agi: 13, dex: 12, cha: 10, int: 8}, abilities: {
                 Attack: abilities.Attack,
-                Check: abilities.Check,
-                'End Turn': abilities.endTurn,
                 'Scratch': abilities.QuickAttack,
-                'Bite': abilities.HeavyAttack,
-                heal: abilities.heal,
-                flee: abilities.flee,
-                damage: abilities.damage,
-                Suicide: abilities.Suicide,
-                Kill: abilities.kill
+                'Bite': abilities.HeavyAttack
+               
             }
         }),
         Mage: new job({
@@ -54,9 +46,8 @@ module.exports={
                 Attack: abilities.Attack,
                 'Wizard Slap': abilities.UnarmedAttack,
                 'Fire Ball': abilities['Fire Ball'],
-                heal: abilities.heal,
-                'End Turn': abilities.endTurn,
-                flee: abilities.flee,
+                heal: abilities.heal
+                
 
             }
         }),
@@ -96,16 +87,5 @@ module.exports={
         }),
         Villager: new job({key:'Villager', name: "Villager", desc: "Hrm", base_stats: {str: 1, stam: 1, agi: 1, dex: 1, cha: 1, int: 1}}),
     },
-    /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-    /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-    /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-    /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-    /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-    /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-    /////////////////////////////MORE CONTENT TO BE ADDED BELOW HERE
-
-
-
-
     npc_jobs: []
 }

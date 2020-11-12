@@ -36,7 +36,7 @@ module.exports=class characters {
             abandoned_castle: [
                 new entity({name: "Elder Dragon", desc: "a dragon", speechType: 'dragon', hostility: true, job: jobs.Test_Enemy, max_hp: 1000, level: 30, stats: {str: 500, int: 500}}),
                 new entity({name: "Giant Spider", desc: "a horrifying giant spider", hostility: true, job: jobs.Test_Enemy, speechType: 'spider', max_hp: 800, level: 15, stats: {str: 500}}),
-                new entity({name: "Mama Sun", desc: "a one-eyed, one-horned, flyin\' purple people eater", hostility: true, job: jobs.Test_Enemy, speechType: 'spider', max_hp: 200, level: 25, stats: {str: 250}}),
+                new entity({name: "Mama Sun", desc: "a one-eyed, one-horned, flyin'' purple people eater", hostility: true, job: jobs.Test_Enemy, speechType: 'spider', max_hp: 200, level: 25, stats: {str: 250}}),
                 new entity({name: "Grommash", desc: "a brawny orc with massive fangs", speechType: 'orc', hostility: true, job: jobs.orc, max_hp: 2000, level: 0, stats: {str: 65, agi: 25, dex: 25}})
             ],
             explore: [

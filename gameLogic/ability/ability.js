@@ -15,7 +15,7 @@ module.exports=class ability {
            
             if(this.type == 'offense')
             {
-                
+                event.fromCombat = true;
                 if(!target)
                 {
                     event.displayText = `\n\nYou can''t...\n`;
