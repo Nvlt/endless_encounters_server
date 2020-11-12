@@ -1,6 +1,6 @@
 # Endless Encounters API  
-[Endless Encounters](https://endless-encounters-chi.vercel.app/ "Endless Encounters") ||
-[Client GitHub](https://github.com/EndlessEncounters/client "Client GitHub") ||
+[Endless Encounters](https://endless-encounters.vercel.app/ "Endless Encounters") ||
+[Client GitHub](https://github.com/Nvlt/endless_encounters_client "Client GitHub") ||
 [API GitHub](https://github.com/Nvlt/endless_encounters_server "API Github")  
 By: [Alexis Felts](https://github.com/Nvlt "Alexis Felts"), 
 [John Pendergast](https://github.com/Jpending "John Pendergast"), 
