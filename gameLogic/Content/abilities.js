@@ -310,7 +310,7 @@ module.exports={
         StoryEvent.player.hp=0;
         return StoryEvent
     }),
-    'Fire Ball': new ability({name: 'Fire Ball', desc: 'Cast a Fire Ball.', cost: 5, type: 'offense'}, (StoryEvent, caster, target) => {
+    'fire ball': new ability({name: 'fire ball', desc: 'Cast a fire ball.', cost: 5, type: 'offense'}, (StoryEvent, caster, target) => {
         const cost=50;
 
 

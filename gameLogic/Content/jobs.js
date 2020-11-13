@@ -30,7 +30,7 @@ module.exports={
                 quick: abilities.QuickAttack,
                 punch: abilities.UnarmedAttack,
                 whirlwind: abilities.Whirlwind,
-                'fire ball': abilities['Fire Ball']
+                'fire ball': abilities['fire ball']
                 
 
             }
@@ -47,7 +47,7 @@ module.exports={
                key:'Mage', name: "Mage", desc: "a wispy wizard person", base_stats: {str: 2, stam: 5, agi: 13, dex: 12, cha: 10, int: 20, will: 10}, abilities: {
                 attack: abilities.Attack,
                 'wizard slap': abilities.UnarmedAttack,
-                'fire ball': abilities['Fire Ball'],
+                'fire ball': abilities['fire ball'],
                 heal: abilities.heal
                 
 
@@ -55,7 +55,7 @@ module.exports={
         }),
         Test_Enemy: new job({
                key:'Test_Enemy', name: "an enemy", desc: "an enemy", base_stats: {str: 2, stam: 5, agi: 13, dex: 12, cha: 10, int: 20, will: 200}, abilities: {
-                'fire ball': abilities['Fire Ball'],
+                'fire ball': abilities['fire ball'],
                 attack: abilities.Attack,
                 heavy: abilities.HeavyAttack,
                 quick: abilities.QuickAttack,

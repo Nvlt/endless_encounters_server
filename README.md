@@ -117,9 +117,9 @@ The '/api/story/:id' endpoint takes in an id that represents a 'StoryEvent' in t
                     "cost": 0,
                     "type": "harmless"
                 },
-                "Fire Ball": {
-                    "name": "Fire Ball",
-                    "desc": "Cast a Fire Ball.",
+                "fire ball": {
+                    "name": "fire ball",
+                    "desc": "Cast a fire ball.",
                     "cost": 5,
                     "type": "offense"
                 },
@@ -205,9 +205,9 @@ The '/api/story/:id' endpoint takes in an id that represents a 'StoryEvent' in t
                 "cost": 0,
                 "type": "harmless"
             },
-            "Fire Ball": {
-                "name": "Fire Ball",
-                "desc": "Cast a Fire Ball.",
+            "fire ball": {
+                "name": "fire ball",
+                "desc": "Cast a fire ball.",
                 "cost": 5,
                 "type": "offense"
             },
@@ -253,7 +253,7 @@ The '/api/story/:id' endpoint takes in an id that represents a 'StoryEvent' in t
         "dataType": "entity"
     },
     "combat": false,
-    "displayText": "You escape the cave.\n\nYou come across a queer cutie.\n\nTiff: brb, I just gotta grab something to eat\n\nhp:250/250\nmp:200/200\nap:10/10\nexp:0/100\n\nChoices: explore, inspect, Attack, Wizard Slap, Fire Ball, heal, End Turn, or flee",
+    "displayText": "You escape the cave.\n\nYou come across a queer cutie.\n\nTiff: brb, I just gotta grab something to eat\n\nhp:250/250\nmp:200/200\nap:10/10\nexp:0/100\n\nChoices: explore, inspect, Attack, Wizard Slap, fire ball, heal, End Turn, or flee",
     "choices": {
         "explore": {
             "name": "town",
@@ -279,9 +279,9 @@ The '/api/story/:id' endpoint takes in an id that represents a 'StoryEvent' in t
             "cost": 0,
             "type": "harmless"
         },
-        "Fire Ball": {
-            "name": "Fire Ball",
-            "desc": "Cast a Fire Ball.",
+        "fire ball": {
+            "name": "fire ball",
+            "desc": "Cast a fire ball.",
             "cost": 5,
             "type": "offense"
         },
@@ -330,9 +330,9 @@ The '/api/story/:id' endpoint takes in an id that represents a 'StoryEvent' in t
                     "cha": 10
                 },
                 "abilities": {
-                    "Fire Ball": {
-                        "name": "Fire Ball",
-                        "desc": "Cast a Fire Ball.",
+                    "fire ball": {
+                        "name": "fire ball",
+                        "desc": "Cast a fire ball.",
                         "cost": 5,
                         "type": "offense"
                     },
@@ -412,9 +412,9 @@ The '/api/story/:id' endpoint takes in an id that represents a 'StoryEvent' in t
             },
             "statPoints": 0,
             "abilities": {
-                "Fire Ball": {
-                    "name": "Fire Ball",
-                    "desc": "Cast a Fire Ball.",
+                "fire ball": {
+                    "name": "fire ball",
+                    "desc": "Cast a fire ball.",
                     "cost": 5,
                     "type": "offense"
                 },
@@ -521,9 +521,9 @@ The '/api/user/story' endpoint is an authenticated GET endpoint. The server grab
                     "cost": 0,
                     "type": "harmless"
                 },
-                "Fire Ball": {
-                    "name": "Fire Ball",
-                    "desc": "Cast a Fire Ball.",
+                "fire ball": {
+                    "name": "fire ball",
+                    "desc": "Cast a fire ball.",
                     "cost": 5,
                     "type": "offense"
                 },
@@ -609,9 +609,9 @@ The '/api/user/story' endpoint is an authenticated GET endpoint. The server grab
                 "cost": 0,
                 "type": "harmless"
             },
-            "Fire Ball": {
-                "name": "Fire Ball",
-                "desc": "Cast a Fire Ball.",
+            "fire ball": {
+                "name": "fire ball",
+                "desc": "Cast a fire ball.",
                 "cost": 5,
                 "type": "offense"
             },
@@ -657,7 +657,7 @@ The '/api/user/story' endpoint is an authenticated GET endpoint. The server grab
         "dataType": "entity"
     },
     "combat": false,
-    "displayText": "You escape the cave.\n\nYou come across a queer cutie.\n\nTiff: brb, I just gotta grab something to eat\n\nhp:250/250\nmp:200/200\nap:10/10\nexp:0/100\n\nChoices: explore, inspect, Attack, Wizard Slap, Fire Ball, heal, End Turn, or flee",
+    "displayText": "You escape the cave.\n\nYou come across a queer cutie.\n\nTiff: brb, I just gotta grab something to eat\n\nhp:250/250\nmp:200/200\nap:10/10\nexp:0/100\n\nChoices: explore, inspect, Attack, Wizard Slap, fire ball, heal, End Turn, or flee",
     "choices": {
         "explore": {
             "name": "town",
@@ -683,9 +683,9 @@ The '/api/user/story' endpoint is an authenticated GET endpoint. The server grab
             "cost": 0,
             "type": "harmless"
         },
-        "Fire Ball": {
-            "name": "Fire Ball",
-            "desc": "Cast a Fire Ball.",
+        "fire ball": {
+            "name": "fire ball",
+            "desc": "Cast a fire ball.",
             "cost": 5,
             "type": "offense"
         },
@@ -734,9 +734,9 @@ The '/api/user/story' endpoint is an authenticated GET endpoint. The server grab
                     "cha": 10
                 },
                 "abilities": {
-                    "Fire Ball": {
-                        "name": "Fire Ball",
-                        "desc": "Cast a Fire Ball.",
+                    "fire ball": {
+                        "name": "fire ball",
+                        "desc": "Cast a fire ball.",
                         "cost": 5,
                         "type": "offense"
                     },
@@ -816,9 +816,9 @@ The '/api/user/story' endpoint is an authenticated GET endpoint. The server grab
             },
             "statPoints": 0,
             "abilities": {
-                "Fire Ball": {
-                    "name": "Fire Ball",
-                    "desc": "Cast a Fire Ball.",
+                "fire ball": {
+                    "name": "fire ball",
+                    "desc": "Cast a fire ball.",
                     "cost": 5,
                     "type": "offense"
                 },
@@ -926,9 +926,9 @@ The server grabs all of the currently logged in user's saved game data from the 
                     "cost": 0,
                     "type": "harmless"
                 },
-                "Fire Ball": {
-                    "name": "Fire Ball",
-                    "desc": "Cast a Fire Ball.",
+                "fire ball": {
+                    "name": "fire ball",
+                    "desc": "Cast a fire ball.",
                     "cost": 5,
                     "type": "offense"
                 },
@@ -1014,9 +1014,9 @@ The server grabs all of the currently logged in user's saved game data from the 
                 "cost": 0,
                 "type": "harmless"
             },
-            "Fire Ball": {
-                "name": "Fire Ball",
-                "desc": "Cast a Fire Ball.",
+            "fire ball": {
+                "name": "fire ball",
+                "desc": "Cast a fire ball.",
                 "cost": 5,
                 "type": "offense"
             },
@@ -1062,7 +1062,7 @@ The server grabs all of the currently logged in user's saved game data from the 
         "dataType": "entity"
     },
     "combat": false,
-    "displayText": "You escape the cave.\n\nYou come across a queer cutie.\n\nTiff: brb, I just gotta grab something to eat\n\nhp:250/250\nmp:200/200\nap:10/10\nexp:0/100\n\nChoices: explore, inspect, Attack, Wizard Slap, Fire Ball, heal, End Turn, or flee",
+    "displayText": "You escape the cave.\n\nYou come across a queer cutie.\n\nTiff: brb, I just gotta grab something to eat\n\nhp:250/250\nmp:200/200\nap:10/10\nexp:0/100\n\nChoices: explore, inspect, Attack, Wizard Slap, fire ball, heal, End Turn, or flee",
     "choices": {
         "explore": {
             "name": "town",
@@ -1088,9 +1088,9 @@ The server grabs all of the currently logged in user's saved game data from the 
             "cost": 0,
             "type": "harmless"
         },
-        "Fire Ball": {
-            "name": "Fire Ball",
-            "desc": "Cast a Fire Ball.",
+        "fire ball": {
+            "name": "fire ball",
+            "desc": "Cast a fire ball.",
             "cost": 5,
             "type": "offense"
         },
@@ -1139,9 +1139,9 @@ The server grabs all of the currently logged in user's saved game data from the 
                     "cha": 10
                 },
                 "abilities": {
-                    "Fire Ball": {
-                        "name": "Fire Ball",
-                        "desc": "Cast a Fire Ball.",
+                    "fire ball": {
+                        "name": "fire ball",
+                        "desc": "Cast a fire ball.",
                         "cost": 5,
                         "type": "offense"
                     },
@@ -1221,9 +1221,9 @@ The server grabs all of the currently logged in user's saved game data from the 
             },
             "statPoints": 0,
             "abilities": {
-                "Fire Ball": {
-                    "name": "Fire Ball",
-                    "desc": "Cast a Fire Ball.",
+                "fire ball": {
+                    "name": "fire ball",
+                    "desc": "Cast a fire ball.",
                     "cost": 5,
                     "type": "offense"
                 },
